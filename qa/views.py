@@ -8,6 +8,7 @@ from django.views.generic import UpdateView
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
+from accounts.models import Interest
 
 class TopicsView(ListView):
     model = Topic
@@ -148,8 +149,7 @@ def latest(request):
     questions = Question.objects.order_by('-last_updated')[:10]
     return render(request, 'latest.html', {'answers': answers, 'questions': questions})
 
-def tests(request):
+def network(request):
     questions = Question.objects.all()
-    interests = '1'
     users = User.objects.all()
-    return render(request, 'tests.html', {'users': users, 'questions': questions, 'interests': interests})
+    return render(request, 'network.html', {'users': users, 'questions': questions})

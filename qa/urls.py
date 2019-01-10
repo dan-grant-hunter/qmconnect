@@ -3,7 +3,7 @@ from . import views as qa_views
 
 app_name = 'qa'
 urlpatterns = [
-    path('tests/', qa_views.tests, name='tests'),
+    path('network/', qa_views.network, name='network'),
     path('', qa_views.latest, name='latest'),
     path('topics/', qa_views.TopicsView.as_view(), name='home'),
     path('topics/<int:pk>/', qa_views.QuestionsView.as_view(), name = 'topic_questions'),

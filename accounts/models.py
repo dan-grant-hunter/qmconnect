@@ -11,9 +11,9 @@ class Interest(models.Model):
 
 class Profile(models.Model):
     YEAR = (
-        ('1', '1st Year'),
-        ('2', '2nd Year'),
-        ('3', '3rd Year'),
+        ('1', '1st year'),
+        ('2', '2nd year'),
+        ('3', '3rd year'),
     )
 
     SUBJECT = (

@@ -1,4 +1,5 @@
-{% load static %}<!DOCTYPE html>
+{% load static %}
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -17,14 +18,17 @@
       </button>
       <div class="collapse navbar-collapse" id="mainMenu">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'qa:home' %}">Topics</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'qa:network' %}">Network</a>
           </li>
         </ul>
         {% if user.is_authenticated %}
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{ user.username }} </a>
+            <a class="btn btn-secondary dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{ user.username }} </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
               <a class="dropdown-item" href="{% url 'account_update' %}">My account</a>
               <a class="dropdown-item" href="{% url 'password_update' %}">Change Password</a>
@@ -54,8 +58,8 @@
   </div>
 
   {% endblock body %}
-  <script src="{% static 'javascript/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'javascript/popper.min.js' %}"></script>
+  <script src="{% static 'javascript/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'javascript/bootstrap.min.js' %}"></script>
 </body>
 </html>
