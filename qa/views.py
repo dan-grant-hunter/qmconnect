@@ -149,5 +149,7 @@ def latest(request):
     return render(request, 'latest.html', {'answers': answers, 'questions': questions})
 
 def tests(request):
+    questions = Question.objects.all()
+    interests = '1'
     users = User.objects.all()
-    return render(request, 'tests.html', {'users': users})
+    return render(request, 'tests.html', {'users': users, 'questions': questions, 'interests': interests})

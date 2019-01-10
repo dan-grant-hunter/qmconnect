@@ -130,6 +130,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+# Allows to upload profile images
+MEDIA_URL = '/profile_images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'profile_images')
+
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'qa:latest'
 LOGIN_REDIRECT_URL = 'qa:latest'

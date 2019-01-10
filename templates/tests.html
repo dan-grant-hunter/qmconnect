@@ -4,7 +4,13 @@
 
 <div class="card">
 {% for user in users %}
-<p>{{ user.profile.dob }}</p>
+<p><img src="/profile_images/{{ user.profile.image }}" alt="User profile picture"> - {{ user }} - {{ user.profile.get_subject_display }} - {{ user.profile.get_universityYear_display }} - {{ user.profile.dob }}</p>
+
+<p>{{ user }}'s interests</p>
+{% for interest in user.profile.interest.all %}
+  <p>{{ interest }}</p>
+{% endfor %}
+
 {% endfor %}
 </div>
 

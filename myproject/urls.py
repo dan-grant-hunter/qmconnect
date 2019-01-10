@@ -24,6 +24,8 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, re_path, include
 from accounts import views as accs_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include('qa.urls')),
@@ -57,6 +59,9 @@ urlpatterns = [
          name = 'password_change_done'),
     path('admin/', admin.site.urls),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 #re_path(r'^topics/(?P<pk>\d+)/$', qa_views.QuestionsView.as_view(), name = 'topic_questions'),
 #re_path(r'^topics/(?P<pk>\d+)/new/$', qa_views.new_question, name = 'new_question'),
