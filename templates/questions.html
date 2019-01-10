@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %}
+{{ topic.name }} - {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'qa:home' %}">Topics</a></li>
+<li class="breadcrumb-item active">{{ topic.name }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <div class="mb-4">
+      <a href="{% url 'qa:new_question' topic.pk %}" class="btn btn-primary">Ask question</a>
+    </div>
+
+    <table class="table">
+      <thead class="thead-inverse">
+        <tr>
+          <th>Question</th>
+          <th>Replies</th>
+          <th>Views</th>
+          <th>Starter</th>
+          <th>Last Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for question in questions %}
+        {% url 'qa:question_answers' topic.pk question.pk as question_url %}
+        <tr>
+          <td class="align-middle">
+            <p> <a href="{{ question_url }}">{{ question.subject }}</a> </p>
+            <small class="text-muted">
+              Pages:
+              {% for i in question.get_page_range %}
+              <a href="{{ question_url }}?page={{ i }}">{{ i }}</a>
+              {% endfor %}
+              {% if question.has_many_pages %}
+              ... <a href="{{ question_url }}?page={{ question.get_page_count }}">Last Page</a>
+              {% endif %}
+            </small>
+          </td>
+          <td class="align-middle"> {{ question.replies }} </td>
+          <td class="align-middle"> {{ question.views }} </td>
+          <td class="align-middle"> {{ question.starter.username }} </td>
+          <td class="align-middle"> {{ question.last_updated|naturaltime }} </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% include 'includes/pagination.html' %}
+  </div>
+</div>
+{% endblock %}

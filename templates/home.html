@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active">QMConnect - Topics</li>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Browse by topic</th>
+          <th scope="col">Questions</th>
+          <th scope="col">answers</th>
+          <th scope="col">Lastest answer</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for topic in topics %}
+        <tr>
+          <td>
+            <a href="{% url 'qa:topic_questions' topic.pk %}">{{ topic.name }}</a>
+            <small class="text-muted d-block">{{ topic.description }}</small>
+          </td>
+          <td class="align-middle"> {{ topic.questions.count }} </td>
+          <td class="align-middle"> {{ topic.answers_count }} </td>
+          <td class="align-middle">
+            {% with answer=topic.latest_answer %}
+            {% if answer %}
+            <a href="{% url 'qa:question_answers' topic.pk answer.question.pk %}">{{ answer.message|slice:'0:10' }}...</a>
+            {% else %}
+            -
+            {% endif %}
+            {% endwith %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock content %}

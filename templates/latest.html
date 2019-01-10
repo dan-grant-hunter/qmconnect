@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active">Check the latest questions and replies</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+
+    {% for question in questions %}
+    <div class="card mb-4">
+      <div class="card-header">
+        Asked by <cite>{{ question.starter }}</cite> in <cite>{{ question.topic }}</cite>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'qa:question_answers' question.topic.pk question.pk %}">{{ question }}</a></h5>
+        <p class="card-text">This question has <cite>{{ question.views }}</cite> views.</p>
+      </div>
+      <div class="card-footer text-muted">
+        <footer class="blockquote-footer">Last updated <cite>{{ question.last_updated }}</cite></footer>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Sidebar Widgets Column -->
+  <div class="col-md-4">
+
+    {% for answer in answers %}
+    <div class="card mb-4">
+      <div class="card-header">
+        <a href="{% url 'qa:question_answers' answer.question.topic.pk answer.question.pk %}">{{ answer.question }}</a> - in <cite>{{ answer.question.topic }}</cite>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p>{{ answer.message }}</p>
+          <footer class="blockquote-footer">Replied by <cite>{{ answer.question.starter }}</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}

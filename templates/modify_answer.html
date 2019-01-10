@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Edit answer{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'qa:home' %}">Topics</a></li>
+<li class="breadcrumb-item"><a href="{% url 'qa:topic_questions' answer.question.topic.pk %}">{{ answer.question.topic.name }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'qa:question_answers' answer.question.topic.pk answer.question.pk %}">{{ answer.question.subject }}</a></li>
+<li class="breadcrumb-item active">Edit answer</li>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <form method="post" class="mb-4" novalidate>
+      {% csrf_token %}
+      {% include 'includes/form.html' %}
+      <button type="submit" class="btn btn-success">Save changes</button>
+      <a href="{% url 'qa:question_answers' answer.question.topic.pk answer.question.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

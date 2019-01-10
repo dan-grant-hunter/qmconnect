@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %} Ask a new question {% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'qa:home' %}">Topics</a></li>
+<li class="breadcrumb-item"><a href="{% url 'qa:topic_questions' topic.pk %}">{{ topic.name }}</a></li>
+<li class="breadcrumb-item active">New question</li>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <form method="POST" novalidate>
+      {% comment %}
+      CSRF = Cross-Site Request Forgery Token.
+      A security measure which helps preventing other
+      sites or apps to submit a request with no/invalid token.
+      {% endcomment %}
+      {% csrf_token %}
+
+      {% include 'includes/form.html' %}
+
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
