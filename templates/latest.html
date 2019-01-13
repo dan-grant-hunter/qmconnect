@@ -11,7 +11,7 @@
     {% for question in questions %}
     <div class="card mb-4">
       <div class="card-header">
-        Asked by <cite>{{ question.starter }}</cite> in <cite>{{ question.topic }}</cite>
+        Asked by <cite><a href="{% url 'qa:profile' question.starter.pk %}">{{ question.starter }}</a></cite> in <cite>{{ question.topic }}</cite>
       </div>
       <div class="card-body">
         <h5 class="card-title"><a href="{% url 'qa:question_answers' question.topic.pk question.pk %}">{{ question }}</a></h5>
@@ -35,7 +35,7 @@
       <div class="card-body">
         <blockquote class="blockquote mb-0">
           <p>{{ answer.message }}</p>
-          <footer class="blockquote-footer">Replied by <cite>{{ answer.question.starter }}</cite></footer>
+          <footer class="blockquote-footer">Replied by <cite><a href="{% url 'qa:profile' answer.question.starter.pk %}">{{ answer.question.starter }}</a></cite></footer>
         </blockquote>
       </div>
     </div>

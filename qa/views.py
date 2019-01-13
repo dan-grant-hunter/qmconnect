@@ -153,3 +153,9 @@ def network(request):
     questions = Question.objects.all()
     users = User.objects.all()
     return render(request, 'network.html', {'users': users, 'questions': questions})
+
+@login_required
+def profile(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    users = User.objects.all()
+    return render(request, 'profile.html', {'user': user, 'users': users})

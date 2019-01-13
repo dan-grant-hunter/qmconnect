@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %} {{ topic.question }} {% endblock %}
+{% block title %} {{ question.subject }} {% endblock %}
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'qa:home' %}">Topics</a></li>
@@ -11,46 +11,48 @@
 {% endblock %}
 
 {% block content %}
-<div class="card">
-  <div class="card-body">
-    <div class="mb-4">
-      <h1> {{ question.subject }} </h1>
-      <a href="{% url 'qa:answer_question' question.topic.pk question.pk %}" class="btn btn-primary btn-sm" role="button">Reply</a>
-    </div>
+<div class="bottom-padding">
+  <div class="card">
+    <div class="card-body">
+      <div class="mb-4">
+        <h1> {{ question.subject }} </h1>
+        <a href="{% url 'qa:answer_question' question.topic.pk question.pk %}" class="btn btn-primary btn-sm" role="button">Reply</a>
+      </div>
 
-    {% for answer in answers %}
-    <div id="{{ answer.pk }}" class="card {% if forloop.last %}mb-4{% else %}mb-2{% endif %} {% if forloop.first %}border-dark{% endif %}">
-      {% if forloop.first %}
-      <div class="card-header text-white bg-dark py-2 px-3"> {{ question.starter }} asked "{{ question.subject }}" </div>
-      {% endif %}
-      <div class="card-body p-3">
-        <div class="row">
-          <div class="col-2">
-            <img src="/profile_images/{{ answer.created_by.profile.image }}" alt="{{ answer.created_by.username }}" class="w-100">
-            <small>Questions: {{ question.created_by.questions.count }}</small>
-          </div>
-          <div class="col-10">
-            <div class="row mb-3">
-              <div class="col-6">
-                <strong class="text-muted"> {{ answer.created_by.username }} </strong>
-              </div>
-              <div class="col-6 text-right">
-                <small class="text-muted"> {{ answer.created_at }} </small>
-              </div>
+      {% for answer in answers %}
+      <div id="{{ answer.pk }}" class="card {% if forloop.last %}mb-4{% else %}mb-2{% endif %} {% if forloop.first %}border-dark{% endif %}">
+        {% if forloop.first %}
+        <div class="card-header text-white bg-dark py-2 px-3"><a href="{% url 'qa:profile' question.starter.pk %}">{{ question.starter }}</a> asked "{{ question.subject }}" </div>
+        {% endif %}
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-2">
+              <img src="/profile_images/{{ answer.created_by.profile.image }}" alt="{{ answer.created_by.username }}" class="w-100">
+              <small>Questions: {{ question.created_by.questions.count }}</small>
             </div>
-            {{ answer.message_to_markdown }}
-            {% if answer.created_by == user %}
-            <div class="mt-3">
-              <a href="{% url 'qa:modify_answer' answer.question.topic.pk answer.question.pk answer.pk %}" class="btn btn-primary btn-sm" role="button">Edit</a>
+            <div class="col-10">
+              <div class="row mb-3">
+                <div class="col-6">
+                  <strong class="text-muted"><a href="{% url 'qa:profile' answer.created_by.pk %}">{{ answer.created_by.username }}</a></strong>
+                </div>
+                <div class="col-6 text-right">
+                  <small class="text-muted"> {{ answer.created_at }} </small>
+                </div>
+              </div>
+              {{ answer.message_to_markdown }}
+              {% if answer.created_by == user %}
+              <div class="mt-3">
+                <a href="{% url 'qa:modify_answer' answer.question.topic.pk answer.question.pk answer.pk %}" class="btn btn-primary btn-sm" role="button">Edit</a>
+              </div>
+              {% endif %}
             </div>
-            {% endif %}
           </div>
         </div>
       </div>
-    </div>
-    {% endfor %}
+      {% endfor %}
 
-    {% include 'includes/pagination.html' %}
+      {% include 'includes/pagination.html' %}
+    </div>
   </div>
 </div>
 {% endblock %}

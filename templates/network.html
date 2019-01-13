@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
-{% block content %}
 
+<title>{% block title %}QMConnect+ Network{% endblock %}</title>
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active">QMConnect+ Network - Find like-minded people</li>
+{% endblock %}
+
+{% block content %}
 <div class="row text-center">
   {% for user in users %}
   <div class="col-3 bottom-padding">
     <div class="card h-100">
       <img class="card-img-top" src="/profile_images/{{ user.profile.image }}" alt="User profile picture">
       <div class="card-body">
-        <h4 class="card-title">{{ user }}</h4>
+        <h4 class="card-title"><a href="{% url 'qa:profile' user.pk %}">{{ user }}</a></h4>
         <p class="card-text">
           Hello! I am {{ user.get_full_name }}.
           If you want to find more about me, click on the button below!
