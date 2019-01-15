@@ -158,4 +158,5 @@ def network(request):
 def profile(request, pk):
     user = get_object_or_404(User, pk=pk)
     users = User.objects.all()
-    return render(request, 'profile.html', {'user': user, 'users': users})
+    user_questions = Question.objects.filter(starter = user)[:5]
+    return render(request, 'profile.html', {'user': user, 'users': users, 'user_questions': user_questions})

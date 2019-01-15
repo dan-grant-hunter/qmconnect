@@ -9,37 +9,61 @@
 
 {% block content %}
 <div class="bottom-padding">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <img class="card-img-top" src="/profile_images/{{ user.profile.image }}" alt="User profile picture" width="100" height="200">
+        <div class="card-body">
+          <h5 class="card-title">{{ user }}'s profile</h5>
+          <p class="card-text">Hello! My name is {{ user.get_full_name }}. I am studying {{ user.profile.get_subject_display }} and I am in my {{ user.profile.get_universityYear_display }}. I have done the following modules:</p>
 
-  <div class="card">
-    <img class="card-img-top" src="/profile_images/{{ user.profile.image }}" alt="User profile picture" width="100" height="200">
-    <div class="card-body">
-      <h5 class="card-title">{{ user }}'s profile</h5>
-      <p class="card-text">Hello! My name is {{ user.get_full_name }}. I am studying {{ user.profile.get_subject_display }} and I am in my {{ user.profile.get_universityYear_display }}. I have done the following modules:</p>
+          <div class="card" style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+              {% for module in user.profile.module.all %}
+              <li class="list-group-item">{{ module }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <p></p>
 
-      <div class="card" style="width: 18rem;">
-        <ul class="list-group list-group-flush">
-          {% for module in user.profile.module.all %}
-            <li class="list-group-item">{{ module }}</li>
-          {% endfor %}
-        </ul>
+          <p class="card-text">I am also interested in:</p>
+
+          <div class="card" style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+              {% for interest in user.profile.interest.all %}
+              <li class="list-group-item">{{ interest }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <p></p>
+          <p class="card-text">My age: {{ user.profile.dob }}</p>
+          <p class="card-text">My email address: {{ user.email }}</p>
+
+
+          <p class="card-text"><small class="text-muted">Last seen {{ user.last_login }}</small></p>
+        </div>
       </div>
-      <p></p>
+    </div>
 
-      <p class="card-text">I am also interested in:</p>
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          Latest questions asked by {{ user }}
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            {% for userqs in user_questions %}
 
-      <div class="card" style="width: 18rem;">
-        <ul class="list-group list-group-flush">
-          {% for interest in user.profile.interest.all %}
-            <li class="list-group-item">{{ interest }}</li>
-          {% endfor %}
-        </ul>
+              <a href="{% url 'qa:question_answers' userqs.topic.pk userqs.pk %}">{{ userqs }}</a>
+
+              <p class="card-text"><small class="text-muted"><cite>In {{ userqs.topic }} </cite></small></p>
+              <footer class="blockquote-footer">at {{ userqs.last_updated }}</footer>
+              <hr/>
+
+            {% endfor %}
+          </blockquote>
+        </div>
       </div>
-      <p></p>
-      <p class="card-text">My age: {{ user.profile.dob }}</p>
-      <p class="card-text">My email address: {{ user.email }}</p>
-
-
-      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
     </div>
   </div>
 </div>
