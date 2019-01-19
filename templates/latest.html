@@ -26,20 +26,21 @@
 
   <!-- Sidebar Widgets Column -->
   <div class="col-md-4">
-
-    {% for answer in answers %}
     <div class="card mb-4">
       <div class="card-header">
-        <a href="{% url 'qa:question_answers' answer.question.topic.pk answer.question.pk %}">{{ answer.question }}</a> - in <cite>{{ answer.question.topic }}</cite>
+        Latest replies
       </div>
       <div class="card-body">
         <blockquote class="blockquote mb-0">
-          <p>{{ answer.message }}</p>
+          {% for answer in answers %}
+          <small><cite><a href="{% url 'qa:question_answers' answer.question.topic.pk answer.question.pk %}">{{ answer.question }}</a> - in {{ answer.question.topic }}</cite></small>
+          <p><small>{{ answer.message }}</small></p>
           <footer class="blockquote-footer">Replied by <cite><a href="{% url 'qa:profile' answer.question.starter.pk %}">{{ answer.question.starter }}</a></cite></footer>
+          <hr/>
+          {% endfor %}
         </blockquote>
       </div>
     </div>
-    {% endfor %}
   </div>
 </div>
 
