@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Message
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 import datetime
@@ -24,3 +24,9 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('image', 'dob',  'subject', 'universityYear', 'module', 'interest', )
+
+# the form that is used to send a message
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ('text', )

@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views as qa_views
+from accounts import views as accounts_views
 
 app_name = 'qa'
 urlpatterns = [
@@ -12,4 +13,5 @@ urlpatterns = [
     path('topics/<int:pk>/questions/<int:question_pk>/answers/<int:answer_pk>/edit/', qa_views.AnswerUpdateView.as_view(), name = 'modify_answer'),
     path('network/', qa_views.network, name='network'),
     path('profile/<int:pk>/', qa_views.profile, name='profile'),
+    path('profile/<int:pk>/send_message', accounts_views.send_message, name='send_message'),
 ]
