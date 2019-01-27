@@ -42,7 +42,7 @@
           {% if request.user == user %}
             Messages
 
-            {% regroup messages|dictsort:"receiver.user.username" by receiver.user.username as message_list %}
+            {% regroup messages|dictsort:"sender.user.username" by sender.user.username as message_list %}
 
               <p class="card-text">
                 {% for message in message_list %}
