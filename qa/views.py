@@ -8,7 +8,8 @@ from django.views.generic import UpdateView
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
-from accounts.models import Interest
+from accounts.models import Interest, Profile
+from .filters import ProfileFilter
 
 class TopicsView(ListView):
     model = Topic
@@ -145,18 +146,28 @@ class AnswerUpdateView(UpdateView):
         return redirect('qa:question_answers', pk = answer.question.topic.pk, question_pk = answer.question.pk)
 
 def latest(request):
+    # retrieve the latest ten answers and questions
+    # order them in descending order by the time they were posted/updated
     answers = Answer.objects.order_by('-created_at')[:10]
     questions = Question.objects.order_by('-last_updated')[:10]
     return render(request, 'latest.html', {'answers': answers, 'questions': questions})
 
 def network(request):
-    questions = Question.objects.all()
-    users = User.objects.all()
-    return render(request, 'network.html', {'users': users, 'questions': questions})
+    # get all the profiles
+    # exclude the logged in user
+    profiles = Profile.objects.all().exclude(user_id=request.user.id)
+
+    # filter the profiles based on the parameters from the GET request made by the user
+    user_filter = ProfileFilter(request.GET, queryset=profiles)
+
+    return render(request, 'network.html', {'user_filter': user_filter})
 
 @login_required
 def profile(request, pk):
+    # get the user requested in the url
     user = get_object_or_404(User, pk=pk)
+    # retrieve all the users
     users = User.objects.all()
+    # get only the questions asked by the user requested above
     user_questions = Question.objects.filter(starter = user)[:5]
     return render(request, 'profile.html', {'user': user, 'users': users, 'user_questions': user_questions})
