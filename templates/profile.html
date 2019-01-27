@@ -39,6 +39,20 @@
           <p class="card-text">My age: {{ user.profile.dob }}</p>
           <p class="card-text">My email address: {{ user.email }}</p>
 
+          {% if request.user == user %}
+            Messages
+
+            {% regroup messages|dictsort:"receiver.user.username" by receiver.user.username as message_list %}
+
+              <p class="card-text">
+                {% for message in message_list %}
+                  <h3>Your messages with <strong>{{message.grouper}}</strong></h3>
+                  {% for msg in message.list %}
+                    <p>{{msg}}</p>
+                  {% endfor %}
+                {% endfor %}
+              </p>
+          {% endif %}
 
           <p class="card-text"><small class="text-muted">Last seen {{ user.last_login }}</small></p>
         </div>
@@ -60,6 +74,8 @@
               <footer class="blockquote-footer">at {{ userqs.last_updated }}</footer>
               <hr/>
 
+            {% empty %}
+              <p class="card-text"><small class="text-muted"><cite>No questions asked yet. :-( </cite></small></p>
             {% endfor %}
           </blockquote>
         </div>

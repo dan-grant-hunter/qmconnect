@@ -1,12 +1,13 @@
 from django.views.generic import UpdateView
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib.auth import login
-from .forms import RegisterForm, ProfileForm
+from .forms import RegisterForm, ProfileForm, MessageForm
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Module, Interest
+from .models import Profile, Module, Interest, Message
+from django.utils import timezone
 
 def register(request):
     if request.method == "POST":
@@ -64,3 +65,29 @@ class AccountUpdateView(UpdateView):
 
     def get_object(self):
         return self.request.user
+
+# the function used to send messages
+@login_required
+def send_message(request, pk):
+    # the sender of the message is the user that is currently logged in
+    sender = request.user
+    # the receiver of the message is the user whose id comes after profile/{pk}/
+    receiver = get_object_or_404(User, pk=pk)
+
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+
+        if form.is_valid():
+            # retrieve the text from the form submission
+            text = request.POST['text']
+
+            # create a new message
+            message = Message(sender = sender.profile, receiver = receiver.profile, text = text, time = timezone.now())
+            # save the message to the database
+            message.save()
+
+            return redirect('qa:profile', pk = pk)
+    else:
+        form = MessageForm()
+
+    return render(request, 'new_message.html', {'form': form})

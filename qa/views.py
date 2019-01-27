@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db.models import Count
-from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.shortcuts import render, redirect, get_object_or_404, reverse, HttpResponse
 from .forms import NewQuestionForm, PostForm
 from .models import Topic, Question, Answer
 from django.contrib.auth.decorators import login_required
@@ -8,8 +8,12 @@ from django.views.generic import UpdateView
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
+<<<<<<< HEAD
 from accounts.models import Interest, Profile
 from .filters import ProfileFilter
+=======
+from accounts.models import Interest, Message
+>>>>>>> 210bd4e13e8c04d5a220506d45e92b93f865db37
 
 class TopicsView(ListView):
     model = Topic
@@ -54,23 +58,29 @@ class AnswersView(ListView):
 
 @login_required
 def new_question(request, pk):
+    # retrieve the topic of the question (e.g. Enrollment)
     topic = get_object_or_404(Topic, pk=pk)
 
     if request.method == 'POST':
-        # instantiate the form with the POST data received
-        # from the request
+        # instantiate the form with the POST data received from the request
         form = NewQuestionForm(request.POST)
+        # store the user currently logged in/that made the request
         user = request.user
 
-        # it checks if the form is valid,
-        # if so, the data is saved into the db
+        # check if the form is valid,
+        # if so, save the data to the db
         if form.is_valid():
+            # do not commit the save to the database
+            # as the topic and starter needs to be associated with the question
             question = form.save(commit=False)
             question.topic = topic
             question.starter = user
-            # it returns the Question created
+            # once the topic and the starter are associated with the question
+            # save it to the database
             question.save()
 
+            # create a new answer with the description entered by the user
+            # and with the question and the user who answered
             answer = Answer.objects.create(
                 message = form.cleaned_data.get('description'),
                 question = question,
@@ -86,6 +96,7 @@ def new_question(request, pk):
 
 @login_required
 def answer_question(request, pk, question_pk):
+    # retrieve the question for which an answer is posted
     question = get_object_or_404(Question, topic__pk = pk, pk = question_pk)
 
     if request.method == 'POST':
@@ -170,4 +181,21 @@ def profile(request, pk):
     users = User.objects.all()
     # get only the questions asked by the user requested above
     user_questions = Question.objects.filter(starter = user)[:5]
-    return render(request, 'profile.html', {'user': user, 'users': users, 'user_questions': user_questions})
+
+    '''
+    The code below is for testing
+    '''
+
+    received_messages = Message.objects.filter(receiver=user.profile)
+    sent_messages = Message.objects.filter(sender=user.profile)
+    messages = received_messages.union(sent_messages).order_by('time')
+
+    '''
+    The code above is for testing
+    '''
+
+    return render(request, 'profile.html', {
+        'user': user,
+        'user_questions': user_questions,
+        'messages': messages
+    })
