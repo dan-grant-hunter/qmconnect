@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 <title>{% block title %}QMConnect+ Network{% endblock %}</title>
 
@@ -7,21 +8,36 @@
 {% endblock %}
 
 {% block content %}
+<nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="page">
+          <form id="formFiltering" method="get">
+            {% for field in user_filter.form %}
+              <div class="form-inline">
+                <strong><label for="{{ field.id_for_label }}"> {{ field.label_tag }} </label></strong>
+                {{ field|add_class:'mx-sm-3 mb-2' }}
+              </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit" id="submitFiltering">Search</button>
+            <a class="btn btn-primary" href="{% url 'qa:network' %}">asf</a>
+          </form>
+      </nav>
+
 <div class="row text-center">
-  {% for user in users %}
+  {% for profile in user_filter.qs %}
   <div class="col-3 bottom-padding">
     <div class="card h-100">
-      <img class="card-img-top" src="/profile_images/{{ user.profile.image }}" alt="User profile picture">
+      <img class="card-img-top" src="/profile_images/{{ profile.image }}" alt="User profile picture">
       <div class="card-body">
-        <h4 class="card-title">{{ user }}</h4>
+        <h4 class="card-title">{{ profile }}</h4>
         <p class="card-text">
-          Hello! I am {{ user.get_full_name }}.
+          Hello! I am {{ profile.user.get_full_name }}.
           If you want to find more about me, click on the button below!
         </p>
       </div>
       <div class="card-footer">
         <!-- Button trigger modal -->
-          <a class="btn btn-dark" href="{% url 'qa:profile' user.pk %}">Find more about me!</a>
+          <a class="btn btn-dark" href="{% url 'qa:profile' profile.user.id %}">Find more about me!</a>
       </div>
     </div>
   </div>
