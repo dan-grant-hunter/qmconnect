@@ -8,12 +8,9 @@ from django.views.generic import UpdateView
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
-<<<<<<< HEAD
 from accounts.models import Interest, Profile
-from .filters import ProfileFilter
-=======
-from accounts.models import Interest, Message
->>>>>>> 210bd4e13e8c04d5a220506d45e92b93f865db37
+from accounts.models import Interest, Conversation, Message
+
 
 class TopicsView(ListView):
     model = Topic
@@ -39,7 +36,7 @@ class AnswersView(ListView):
     model = Answer
     context_object_name = 'answers'
     template_name = 'question_answers.html'
-    paginate_by = 2
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         session_key = 'viewed_question_{}'.format(self.question.pk)
@@ -162,40 +159,3 @@ def latest(request):
     answers = Answer.objects.order_by('-created_at')[:10]
     questions = Question.objects.order_by('-last_updated')[:10]
     return render(request, 'latest.html', {'answers': answers, 'questions': questions})
-
-def network(request):
-    # get all the profiles
-    # exclude the logged in user
-    profiles = Profile.objects.all().exclude(user_id=request.user.id)
-
-    # filter the profiles based on the parameters from the GET request made by the user
-    user_filter = ProfileFilter(request.GET, queryset=profiles)
-
-    return render(request, 'network.html', {'user_filter': user_filter})
-
-@login_required
-def profile(request, pk):
-    # get the user requested in the url
-    user = get_object_or_404(User, pk=pk)
-    # retrieve all the users
-    users = User.objects.all()
-    # get only the questions asked by the user requested above
-    user_questions = Question.objects.filter(starter = user)[:5]
-
-    '''
-    The code below is for testing
-    '''
-
-    received_messages = Message.objects.filter(receiver=user.profile)
-    sent_messages = Message.objects.filter(sender=user.profile)
-    messages = received_messages.union(sent_messages).order_by('time')
-
-    '''
-    The code above is for testing
-    '''
-
-    return render(request, 'profile.html', {
-        'user': user,
-        'user_questions': user_questions,
-        'messages': messages
-    })

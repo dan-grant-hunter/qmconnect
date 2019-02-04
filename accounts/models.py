@@ -52,12 +52,19 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+class Conversation(models.Model):
+    members = models.ManyToManyField(User, verbose_name="Member")
+
+    def __str__(self):
+        return str(self.pk)
+
 # Model used for messages between the users
 class Message(models.Model):
     sender = models.ForeignKey(Profile, related_name="sender", on_delete=models.CASCADE)
     receiver = models.ForeignKey(Profile, related_name="receiver", on_delete=models.CASCADE)
     text = models.CharField(max_length=4096)
     time = models.DateTimeField()
+    conversation = models.ForeignKey(Conversation, blank=False, null=False, default='', on_delete=models.CASCADE)
 
     def __str__(self):
         return '{} to {}: {}'.format(self.sender, self.receiver, self.text)

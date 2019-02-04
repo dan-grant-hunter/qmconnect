@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, Interest, Module, Message
+from .models import Profile, Interest, Module, Message, Conversation
 
 # Add the Profile model to the Django admin interface
 class ProfileInline(admin.StackedInline):
@@ -34,3 +34,4 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Interest)
 admin.site.register(Module)
 admin.site.register(Message)
+admin.site.register(Conversation)

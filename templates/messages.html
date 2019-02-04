@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+<title>{% block title %}{{ user }}'s messages{% endblock %}</title>
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active">{{ user }}'s messages</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="bottom-padding">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="card">
+        <div class="card-header">
+          Spoken with...
+        </div>
+        <div class="card-body">
+          {% for conversation in conversations %}
+            <p>
+              {% ifchanged conversation.conversation.pk %}
+                {% if conversation.receiver.user == request.user %}
+                  <a href="#">{{conversation.sender}}</a>
+                {% else %}
+                  <a href="#">{{conversation.receiver}}</a>
+                {% endif %}
+              {% endifchanged %}
+            </p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-10">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Your messages - ADD AJAX</h5>
+            {% for conversation in conversations %}
+                {% ifchanged conversation.conversation.pk %}<hr />{% endifchanged %}
+                  <p>{{ conversation }}</p>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -24,6 +24,11 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'qa:network' %}">Network</a>
           </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'qa:messages' user.id %}">Messages</a>
+            </li>
+          {% endif %}
         </ul>
         {% if user.is_authenticated %}
         <ul class="navbar-nav ml-auto">

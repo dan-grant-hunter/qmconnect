@@ -11,7 +11,9 @@ urlpatterns = [
     path('topics/<int:pk>/questions/<int:question_pk>/', qa_views.AnswersView.as_view(), name = 'question_answers'),
     path('topics/<int:pk>/questions/<int:question_pk>/reply/', qa_views.answer_question, name = 'answer_question'),
     path('topics/<int:pk>/questions/<int:question_pk>/answers/<int:answer_pk>/edit/', qa_views.AnswerUpdateView.as_view(), name = 'modify_answer'),
-    path('network/', qa_views.network, name='network'),
-    path('profile/<int:pk>/', qa_views.profile, name='profile'),
-    path('profile/<int:pk>/send_message', accounts_views.send_message, name='send_message'),
+    path('network/', accounts_views.network, name='network'),
+    path('profile/<int:pk>/', accounts_views.profile, name='profile'),
+    path('messages/<int:pk>/', accounts_views.messages, name='messages'),
+    path('messages/<int:pk>/send_message/', accounts_views.send_message, name='send_message'),
+    path('buddy/', accounts_views.find_studybuddy, name='find_studybuddy'),
 ]

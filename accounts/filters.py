@@ -1,5 +1,5 @@
 import django_filters
-from accounts.models import Profile
+from .models import Profile
 
 class ProfileFilter(django_filters.FilterSet):
     class Meta:

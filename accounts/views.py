@@ -6,8 +6,11 @@ from .forms import RegisterForm, ProfileForm, MessageForm
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Module, Interest, Message
+from .models import Profile, Module, Interest, Message, Conversation
 from django.utils import timezone
+from .filters import ProfileFilter
+from qa.models import Question
+from collections import *
 
 def register(request):
     if request.method == "POST":
@@ -86,8 +89,73 @@ def send_message(request, pk):
             # save the message to the database
             message.save()
 
-            return redirect('qa:profile', pk = pk)
+            return redirect('qa:messages', pk = pk)
     else:
         form = MessageForm()
 
     return render(request, 'new_message.html', {'form': form})
+
+@login_required
+def network(request):
+    # get all the profiles
+    # exclude the logged in user
+    profiles = Profile.objects.all().exclude(user_id=request.user.id)
+
+    # filter the profiles based on the parameters from the GET request made by the user
+    user_filter = ProfileFilter(request.GET, queryset=profiles)
+
+    return render(request, 'network.html', {'user_filter': user_filter})
+
+@login_required
+def profile(request, pk):
+    # get the user requested in the url
+    user = get_object_or_404(User, pk=pk)
+    # retrieve all the users
+    users = User.objects.all()
+    # get only the questions asked by the user requested above
+    user_questions = Question.objects.filter(starter = user)[:5]
+
+    return render(request, 'profile.html', {
+        'user': user,
+        'user_questions': user_questions
+    })
+
+@login_required
+def messages(request, pk):
+    # get the user requested in the url
+    user = get_object_or_404(User, pk=pk)
+
+    # return the conversations where the user has participated
+    conversations = Message.objects.filter(conversation__members=user)
+
+    return render(request, 'messages.html', {'conversations': conversations})
+
+
+@login_required
+def find_studybuddy(request):
+    # retrieve all the users except the admin
+    users = User.objects.all().exclude(username='admin')
+
+    # the logged in user that makes the request
+    currentUser = Profile.objects.get(user=request.user)
+
+    '''
+    retrieve all the users that:
+        have common interests and modules with currentUser
+        are in the same year with currentUser
+    '''
+    common_interests = Profile.objects.filter(interest__in=currentUser.interest.all()).exclude(id=currentUser.id)
+    common_modules = Profile.objects.filter(module__in=currentUser.module.all()).exclude(id=currentUser.id)
+    same_year = Profile.objects.filter(universityYear=currentUser.universityYear)
+
+    # intersect the three querysets
+    # stores all the
+    related_users = common_interests.intersection(common_modules, same_year)
+
+    test = Counter(related_users).most_common(10)
+    test1 = [user for user,count in test]
+
+    print(related_users)
+    print(test, test1)
+
+    return HttpResponse(related_users[0])
