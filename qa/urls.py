@@ -13,7 +13,7 @@ urlpatterns = [
     path('topics/<int:pk>/questions/<int:question_pk>/answers/<int:answer_pk>/edit/', qa_views.AnswerUpdateView.as_view(), name = 'modify_answer'),
     path('network/', accounts_views.network, name='network'),
     path('profile/<int:pk>/', accounts_views.profile, name='profile'),
-    path('messages/<int:pk>/', accounts_views.messages, name='messages'),
+    path('messages/', accounts_views.messages, name='messages'),
     path('messages/<int:pk>/send_message/', accounts_views.send_message, name='send_message'),
-    path('buddy/', accounts_views.find_studybuddy, name='find_studybuddy'),
+    path('buddy/', accounts_views.studybuddy, name='studybuddy'),
 ]

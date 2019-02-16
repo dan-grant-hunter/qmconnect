@@ -26,7 +26,10 @@
           </li>
           {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'qa:messages' user.id %}">Messages</a>
+              <a class="nav-link" href="{% url 'qa:messages' %}">Messages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'qa:studybuddy' %}">Find buddy</a>
             </li>
           {% endif %}
         </ul>

@@ -121,9 +121,9 @@ def profile(request, pk):
     })
 
 @login_required
-def messages(request, pk):
+def messages(request):
     # get the user requested in the url
-    user = get_object_or_404(User, pk=pk)
+    user = request.user
 
     # return the conversations where the user has participated
     conversations = Message.objects.filter(conversation__members=user)
@@ -132,7 +132,7 @@ def messages(request, pk):
 
 
 @login_required
-def find_studybuddy(request):
+def studybuddy(request):
     # retrieve all the users except the admin
     users = User.objects.all().exclude(username='admin')
 
@@ -140,22 +140,26 @@ def find_studybuddy(request):
     currentUser = Profile.objects.get(user=request.user)
 
     '''
-    retrieve all the users that:
-        have common interests and modules with currentUser
-        are in the same year with currentUser
+    retrieve all the users that have common interests and modules with currentUser
     '''
     common_interests = Profile.objects.filter(interest__in=currentUser.interest.all()).exclude(id=currentUser.id)
     common_modules = Profile.objects.filter(module__in=currentUser.module.all()).exclude(id=currentUser.id)
-    same_year = Profile.objects.filter(universityYear=currentUser.universityYear)
 
-    # intersect the three querysets
-    # stores all the
-    related_users = common_interests.intersection(common_modules, same_year)
+    common_interests_counter = Counter(common_interests)
+    print('Common interests counter', common_interests_counter)
 
-    test = Counter(related_users).most_common(10)
-    test1 = [user for user,count in test]
+    common_modules_counter = Counter(common_modules)
+    print('Common modules counter', common_modules_counter)
 
+    related_users_counter = (common_modules_counter + common_interests_counter)
+    related_users_counter = related_users_counter.most_common(10)
+    print('')
+    print('Common modules plus interests union same year', related_users_counter)
+
+    related_users = [user for user,count in related_users_counter]
+    print('')
+    print('')
+    print('')
     print(related_users)
-    print(test, test1)
 
-    return HttpResponse(related_users[0])
+    return render(request, 'buddy.html', {'related_users': related_users})
