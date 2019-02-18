@@ -24,13 +24,24 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">How are we suggesting you study buddies?</h5>
+        <h5 class="modal-title" id="exampleModalLabel">How are matching you with other students?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <p>
+          Our idea is straightforward.
+        </p>
+        <p>
+          We count how many interests and modules you have in common with other students, and we return the students with whom you have the most interests and modules in common.
+        </p>
+        <p>
+          Then, we check if you are in the same year with those students, and return only the students who are in the same year with you.
+        </p>
+        <p>
+          We try our best to match you with the right students.
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -47,7 +58,7 @@
             <div class="card" style="width: 18rem;">
               <img src="/profile_images/{{user.image}}" class="img-thumbnail" alt="...">
               <div class="card-body">
-                <h3 class="card-title"><strong>{{user.user.get_full_name}}</strong></h3>
+                <h3 class="card-title"><strong><a href="{% url 'qa:profile' user.user.pk %}">{{user.user.get_full_name}}</a></strong></h3>
                 <p class="card-text"></p>
                 <blockquote class="blockquote mb-0">
                   <footer class="blockquote-footer"><cite>{{user.get_universityYear_display}} {{user.get_subject_display}} student</cite></footer>

@@ -145,21 +145,19 @@ def studybuddy(request):
     common_interests = Profile.objects.filter(interest__in=currentUser.interest.all()).exclude(id=currentUser.id)
     common_modules = Profile.objects.filter(module__in=currentUser.module.all()).exclude(id=currentUser.id)
 
+    # count the common interests and modules with the user that makes the request
+    # for each common module or/and interests, the value is increment by one
+    # e.g. if the user making the request has only 2 common modules with user1, it will return <Profile:user1>,2
     common_interests_counter = Counter(common_interests)
-    print('Common interests counter', common_interests_counter)
-
     common_modules_counter = Counter(common_modules)
-    print('Common modules counter', common_modules_counter)
 
+    # add together the number of common modules and interests
     related_users_counter = (common_modules_counter + common_interests_counter)
+    # take only the top 10 students with matching modules and interests
     related_users_counter = related_users_counter.most_common(10)
-    print('')
-    print('Common modules plus interests union same year', related_users_counter)
 
+    # extract the users from the counter
     related_users = [user for user,count in related_users_counter]
-    print('')
-    print('')
-    print('')
-    print(related_users)
+
 
     return render(request, 'buddy.html', {'related_users': related_users})
