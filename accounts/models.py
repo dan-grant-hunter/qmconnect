@@ -67,4 +67,4 @@ class Message(models.Model):
     conversation = models.ForeignKey(Conversation, blank=False, null=False, default='', on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{} to {}: {}'.format(self.sender, self.receiver, self.text)
+        return '{} to {}: {}</br>'.format(self.sender, self.receiver, self.text)

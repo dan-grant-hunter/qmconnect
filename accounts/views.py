@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth import login
-from .forms import RegisterForm, ProfileForm, MessageForm
+from .forms import RegisterForm, ProfileForm, MessageForm, ConversationForm
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -12,6 +12,8 @@ from django.utils import timezone
 from .filters import ProfileFilter
 from qa.models import Question
 from collections import *
+import json
+from django.core import serializers
 
 def register(request):
     if request.method == "POST":
@@ -87,27 +89,23 @@ def send_message(request, pk):
 
             # create a new message
             message = Message(sender = sender.profile, receiver = receiver.profile, text = text, time = timezone.now())
+            message.conversation = get_object_or_404(Conversation, pk=3)
+
             # save the message to the database
             message.save()
 
     # create a dictionary with the new message
     # return the new message to the AJAX
-    # data = {}
-    #
-    # data['sender'] = message.sender.profile
-    # data['receiver'] = message.receiver.profile
-    # data['text'] = message.text
-    # data['time'] = message.time
-    # data['conversation'] = message.conversation.pk
+    data = {}
 
-            return redirect('qa:messages', pk = pk)
-    else:
-        form = MessageForm()
-
-    return render(request, 'new_message.html', {'form': form})
+    data['sender'] = message.sender.user.username
+    data['receiver'] = message.receiver.user.username
+    data['text'] = message.text
+    data['time'] = message.time
+    data['conversation'] = "3"
 
     # return the new data
-    #return JsonResponse(data, safe=False)
+    return JsonResponse(data, safe=False)
 
 @login_required
 def network(request):
@@ -157,9 +155,9 @@ def conversation(request, pk):
 
     formatted_messages_for_ajax = []
 
-    for conversation in conversations:
-        if conversation.conversation.pk == pk:
-            conversation = "<p>" + str(conversation) + "</p>"
+    for message in conversations:
+        if message.conversation.pk == pk:
+            conversation = str(message)
             formatted_messages_for_ajax.append(conversation)
 
     return HttpResponse(formatted_messages_for_ajax)

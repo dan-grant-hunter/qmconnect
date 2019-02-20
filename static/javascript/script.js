@@ -47,8 +47,7 @@ function sendMessage(receiver_id) {
     },
     success: function(response) {
       console.log("Message sent successfully!")
-      console.log(response)
-      //$('.messages').append(response['sender'] + " to " + response['receiver'] + ": " + response['text'])
+      $('.messages').append(response['sender'] + " to " + response['receiver'] + ": " + response['text'] + "</br>")
     },
     error: function(xhr) {
       console.log($('.request-user').attr('id'))
