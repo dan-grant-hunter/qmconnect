@@ -9,7 +9,7 @@
 {% block content %}
 
 <div class="bottom-padding">
-  <div class="row">
+  <div class="row bottom-padding">
     <div class="col-md-2">
       <div class="card">
         <div class="card-header">
@@ -20,9 +20,10 @@
             <p>
               {% ifchanged conversation.conversation.pk %}
                 {% if conversation.receiver.user == request.user %}
-                  <a href="#">{{conversation.sender}}</a>
+                  <a class ="conversation-partner" id="{{ conversation.conversation.pk }}" href="#">{{conversation.sender.user}}</a>
                 {% else %}
-                  <a href="#">{{conversation.receiver}}</a>
+                  <div class="receiver-id" style="display: none;" id="{{ conversation.receiver }}"></div>
+                  <a class ="conversation-partner" id="{{ conversation.conversation.pk }}" href="#">{{conversation.receiver.user}}</a>
                 {% endif %}
               {% endifchanged %}
             </p>
@@ -34,15 +35,37 @@
     <div class="col-md-10">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Your messages - ADD AJAX</h5>
-            {% for conversation in conversations %}
-                {% ifchanged conversation.conversation.pk %}<hr />{% endifchanged %}
-                  <p>{{ conversation }}</p>
-            {% endfor %}
+          <h5 class="card-title" id="messages-with">Your messages</h5>
+            <div class="messages">
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: none;" class="row" id="message-form">
+
+    <div class="col-md-2">
+      <div>
+      </div>
+    </div>
+
+    <div class="col-md-10">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Send a message</h5>
+            <form class="mb-4">
+              <div class="form-group">
+                {% csrf_token %}
+                <label class="request-user" id="{{request.user}}">
+                <label>Message:</label>
+                <input class="form-control" type="text" name="text"> </br>
+                <button type="button" class="btn btn-dark" id="message-submit">Send</button>
+              </div>
+            </form>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 {% endblock %}

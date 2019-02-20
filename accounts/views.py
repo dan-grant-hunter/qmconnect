@@ -1,6 +1,7 @@
 from django.views.generic import UpdateView
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
+from django.http import JsonResponse
 from django.contrib.auth import login
 from .forms import RegisterForm, ProfileForm, MessageForm
 from django.urls import reverse_lazy
@@ -89,11 +90,24 @@ def send_message(request, pk):
             # save the message to the database
             message.save()
 
+    # create a dictionary with the new message
+    # return the new message to the AJAX
+    # data = {}
+    #
+    # data['sender'] = message.sender.profile
+    # data['receiver'] = message.receiver.profile
+    # data['text'] = message.text
+    # data['time'] = message.time
+    # data['conversation'] = message.conversation.pk
+
             return redirect('qa:messages', pk = pk)
     else:
         form = MessageForm()
 
     return render(request, 'new_message.html', {'form': form})
+
+    # return the new data
+    #return JsonResponse(data, safe=False)
 
 @login_required
 def network(request):
@@ -129,6 +143,26 @@ def messages(request):
     conversations = Message.objects.filter(conversation__members=user)
 
     return render(request, 'messages.html', {'conversations': conversations})
+
+'''
+This method allows AJAX to retrieve a single conversation
+'''
+@login_required
+def conversation(request, pk):
+    # get the user requested in the url
+    user = request.user
+
+    # return the conversations where the user has participated
+    conversations = Message.objects.filter(conversation__members=user)
+
+    formatted_messages_for_ajax = []
+
+    for conversation in conversations:
+        if conversation.conversation.pk == pk:
+            conversation = "<p>" + str(conversation) + "</p>"
+            formatted_messages_for_ajax.append(conversation)
+
+    return HttpResponse(formatted_messages_for_ajax)
 
 
 @login_required

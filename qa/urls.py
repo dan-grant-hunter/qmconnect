@@ -16,4 +16,5 @@ urlpatterns = [
     path('messages/', accounts_views.messages, name='messages'),
     path('messages/<int:pk>/send_message/', accounts_views.send_message, name='send_message'),
     path('buddy/', accounts_views.studybuddy, name='studybuddy'),
+    path('conversation/<int:pk>/', accounts_views.conversation, name='conversation'),
 ]
