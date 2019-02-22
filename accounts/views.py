@@ -89,7 +89,7 @@ def send_message(request, pk):
 
             # create a new message
             message = Message(sender = sender.profile, receiver = receiver.profile, text = text, time = timezone.now())
-            message.conversation = get_object_or_404(Conversation, pk=3)
+            message.conversation = get_object_or_404(Conversation, pk=request.POST['conversation_id'])
 
             # save the message to the database
             message.save()
