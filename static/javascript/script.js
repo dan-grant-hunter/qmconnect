@@ -64,7 +64,7 @@ function sendMessage(receiver_id) {
     },
     success: function(response) {
       console.log("Message sent successfully!")
-      $('.messages').append(response['sender'] + " to " + response['receiver'] + ": " + response['text'])
+      $('.messages').append(response['sender'] + " to " + response['receiver'] + ": " + response['text'] + "</br>")
       // clear the input after sending the message
       $('input[name=text]').val('')
     },
