@@ -20,7 +20,7 @@
             <p>
               {% ifchanged conversation.conversation.pk %}
                 {% if conversation.receiver.user == request.user %}
-                  <a class ="conversation-partner {{conversation.receiver.user.pk}}" id="{{ conversation.conversation.pk }}" href="#">{{conversation.sender.user}}</a>
+                  <a class ="conversation-partner {{conversation.sender.user.pk}}" id="{{ conversation.conversation.pk }}" href="#">{{conversation.sender.user}}</a>
                 {% else %}
                   <div class="receiver-id" style="display: none;" id="{{ conversation.receiver }}"></div>
                   <a class="conversation-partner {{conversation.receiver.user.pk}}" id="{{ conversation.conversation.pk }}" href="#">{{conversation.receiver.user}}</a>
