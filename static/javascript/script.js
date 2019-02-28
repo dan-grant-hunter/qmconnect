@@ -24,6 +24,14 @@ $(function() {
     receiver_id = $('#receiver-span').text()
     sendMessage(receiver_id)
   });
+
+  // answer a question
+  $('#answer-submit').on('click', function() {
+    topic_id = $('#topic_pk').text()
+    question_id = $('#question_pk').text()
+
+    leave_reply(topic_id, question_id)
+  });
 });
 
 /*
@@ -72,4 +80,26 @@ function sendMessage(receiver_id) {
       console.log(xhr)
     }
   });
+}
+
+/*
+  This functions allows users to leave replies on questions
+*/
+function leave_reply(topic_id, question_id) {
+  $.ajax({
+    url: "/topics/" + topic_id + "/questions/" + question_id + "/reply/",
+    type: "POST",
+    data: {
+      'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+      'message': $('#textarea_answerquestion').val(),
+      'pk': topic_id,
+      'question_pk': question_id
+    },
+    success: function(response) {
+      console.log(response)
+    },
+    error: function(xhr) {
+      console.log(xhr.responseText)
+    }
+  })
 }

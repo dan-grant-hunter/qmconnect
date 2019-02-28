@@ -35,7 +35,7 @@
           {% for answer in answers %}
           <small><cite><a href="{% url 'qa:question_answers' answer.question.topic.pk answer.question.pk %}">{{ answer.question }}</a> - in {{ answer.question.topic }}</cite></small>
           <p><small>{{ answer.message }}</small></p>
-          <footer class="blockquote-footer">Replied by <cite><a href="{% url 'qa:profile' answer.question.starter.pk %}">{{ answer.question.starter }}</a></cite></footer>
+          <footer class="blockquote-footer">Replied by <cite><a href="{% url 'qa:profile' answer.created_by.pk %}">{{ answer.created_by }}</a></cite></footer>
           <hr/>
           {% endfor %}
         </blockquote>

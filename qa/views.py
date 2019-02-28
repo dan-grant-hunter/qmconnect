@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from accounts.models import Interest, Profile
 from accounts.models import Interest, Conversation, Message
-
+from django.http import JsonResponse
 
 class TopicsView(ListView):
     model = Topic
@@ -115,11 +115,18 @@ def answer_question(request, pk, question_pk):
                 page = question.get_page_count()
             )
 
-            return redirect(question_answer_url)
-    else:
-        form = PostForm()
+    data = {}
 
-    return render(request, 'answer_question.html', {'question': question, 'form': form})
+    data['message'] = answer.message
+    data['created_at'] = answer.created_at
+    data['created_by'] = answer.created_by.username
+
+    return JsonResponse(data, safe=False)
+    #         return redirect(question_answer_url)
+    # else:
+    #     form = PostForm()
+    #
+    # return render(request, 'answer_question.html', {'question': question, 'form': form})
 
 @method_decorator(login_required, name='dispatch')
 class AnswerUpdateView(UpdateView):
