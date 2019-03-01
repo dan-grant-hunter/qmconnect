@@ -26,7 +26,8 @@ $(function() {
   });
 
   // answer a question
-  $('#answer-submit').on('click', function() {
+  // https://stackoverflow.com/questions/23393076/jquery-ajax-call-only-works-once
+  $(document).on('click', '#answer-submit', function() {
     topic_id = $('#topic_pk').text()
     question_id = $('#question_pk').text()
 
@@ -97,6 +98,7 @@ function leave_reply(topic_id, question_id) {
     },
     success: function(response) {
       console.log(response)
+      $(".bottom-padding").load(location.href + " .bottom-padding")
     },
     error: function(xhr) {
       console.log(xhr.responseText)

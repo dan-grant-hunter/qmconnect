@@ -120,13 +120,9 @@ def answer_question(request, pk, question_pk):
     data['message'] = answer.message
     data['created_at'] = answer.created_at
     data['created_by'] = answer.created_by.username
+    data['image'] = str(answer.created_by.profile.image)
 
     return JsonResponse(data, safe=False)
-    #         return redirect(question_answer_url)
-    # else:
-    #     form = PostForm()
-    #
-    # return render(request, 'answer_question.html', {'question': question, 'form': form})
 
 @method_decorator(login_required, name='dispatch')
 class AnswerUpdateView(UpdateView):
