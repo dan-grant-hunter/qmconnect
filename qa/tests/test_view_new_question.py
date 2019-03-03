@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse, resolve
-from .models import Topic, Question, Answer
-from .views import new_question
-from .forms import NewQuestionForm
+from ..models import Topic, Question, Answer
+from ..views import new_question
+from ..forms import NewQuestionForm
 
 class NewQuestionsTests(TestCase):
     """
@@ -20,7 +20,7 @@ class NewQuestionsTests(TestCase):
     Topic does not exist.
     """
     def test_new_question_view_status_code_404(self):
-        url = reverse('new_question', kwargs={'pk': 101})
+        url = reverse('qa:new_question', kwargs={'pk': 101})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 404)
 
@@ -29,7 +29,7 @@ class NewQuestionsTests(TestCase):
     (if it's successful)
     """
     def test_new_question_view_status_code_202(self):
-        url = reverse('new_question', kwargs={'pk': 1})
+        url = reverse('qa:new_question', kwargs={'pk': 1})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
 
@@ -45,16 +45,16 @@ class NewQuestionsTests(TestCase):
     is available.
     """
     def test_new_question_view_if_links_back_to_topic_questions_view(self):
-        new_question_url = reverse('new_question', kwargs={'pk': 1})
-        topic_questions_url = reverse('QuestionsView', kwargs={'pk': 1})
+        new_question_url = reverse('qa:new_question', kwargs={'pk': 1})
+        topic_questions_url = reverse('qa:topic_questions', kwargs={'pk': 1})
         response = self.client.get(new_question_url)
-        self.assertContains(response, 'href="{0}"'.format(QuestionsView_url))
+        self.assertContains(response, 'href="{0}"'.format(topic_questions_url))
 
     """
     It ensures that the CSRF token is included in the HTML.
     """
     def test_csrf_middleware_token(self):
-        url = reverse('new_question', kwargs={'pk': 1})
+        url = reverse('qa:new_question', kwargs={'pk': 1})
         response = self.client.get(url)
         self.assertContains(response, 'csrfmiddlewaretoken')
 
@@ -62,7 +62,7 @@ class NewQuestionsTests(TestCase):
     It makes sure that the view creates Question and Answer instances.
     """
     def test_new_question_creates_instances(self):
-        url = reverse('new_question', kwargs={'pk': 1})
+        url = reverse('qa:new_question', kwargs={'pk': 1})
         info = {
             'subject': 'QMConnect+123',
             'description': 'Connecting people.123'
@@ -76,7 +76,7 @@ class NewQuestionsTests(TestCase):
     the form again with validation errors.
     """
     def test_new_question_no_data(self):
-        url = reverse('new_question', kwargs={'pk': 1})
+        url = reverse('qa:new_question', kwargs={'pk': 1})
         response = self.client.get(url, {})
         self.assertEquals(response.status_code, 200)
 
@@ -84,7 +84,7 @@ class NewQuestionsTests(TestCase):
     Test the behaviour of the form with empty data.
     """
     def test_new_question_with_empty_fields(self):
-        url = reverse('new_question', kwargs={'pk': 1})
+        url = reverse('qa:new_question', kwargs={'pk': 1})
         info = {
             'subject': '',
             'description': ''
@@ -98,7 +98,7 @@ class NewQuestionsTests(TestCase):
     It tests if a new form is a NewQuestionForm instance.
     """
     def test_its_a_newquestionform_instance(self):
-        url = reverse('new_question', kwargs={'pk': 1})
+        url = reverse('qa:new_question', kwargs={'pk': 1})
         response = self.client.get(url)
         form = response.context.get('form')
         self.assertIsInstance(form, NewQuestionForm)
@@ -110,7 +110,7 @@ class NewQuestionsTests(TestCase):
     validation errors.
     """
     def test_new_question_form_validations(self):
-        url = reverse('new_question', kwargs={'pk': 1})
+        url = reverse('qa:new_question', kwargs={'pk': 1})
         response = self.client.post(url, {})
         form = response.context.get('form')
         self.assertEquals(response.status_code, 200)
@@ -123,7 +123,7 @@ to be authenticated before posting a new question.
 class NewQuestionRequiresLoginTests(TestCase):
     def setUp(self):
         Topic.objects.create(name='QMConnect+', description='A platform for students from students.')
-        self.url = reverse('new_question', kwargs={'pk': 1})
+        self.url = reverse('qa:new_question', kwargs={'pk': 1})
         self.response = self.client.get(self.url)
 
     '''

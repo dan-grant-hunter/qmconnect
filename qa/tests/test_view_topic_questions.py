@@ -13,7 +13,7 @@ class TopicQuestionsTest(TestCase):
     200 for an existing Topic.
     """
     def test_topic_questions_view_status_code_200(self):
-        url = reverse('QuestionsView', kwargs={'pk': 1})
+        url = reverse('qa:topic_questions', kwargs={'pk': 1})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
 
@@ -22,7 +22,7 @@ class TopicQuestionsTest(TestCase):
     status code 400 for a Topic that is not in the db.
     """
     def test_topic_questions_view_status_code_404(self):
-        url = reverse('QuestionsView', kwargs={'pk': 101})
+        url = reverse('qa:topic_questions', kwargs={'pk': 101})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 404)
 
@@ -32,16 +32,16 @@ class TopicQuestionsTest(TestCase):
     """
     def test_topic_questions_url_resolves_topic_questions_view(self):
         view = resolve('/topics/1/')
-        self.assertEquals(view.func, QuestionsView)
+        self.assertEquals(view.func.view_class, QuestionsView)
 
     """
     It checks if the view has the navigation links such as
     going back to the homepage or adding a new questions
     """
     def test_topic_questions_view_has_navigations_links(self):
-        topic_questions_url = reverse('QuestionsView', kwargs={'pk': 1})
-        response = self.client.get(QuestionsView_url)
-        homepage_url = reverse('TopicsView')
-        new_question_url = reverse('new_question', kwargs={'pk': 1})
+        topic_questions_url = reverse('qa:topic_questions', kwargs={'pk': 1})
+        response = self.client.get(topic_questions_url)
+        homepage_url = reverse('qa:home')
+        new_question_url = reverse('qa:new_question', kwargs={'pk': 1})
         self.assertContains(response, 'href="{0}"'.format(homepage_url))
         self.assertContains(response, 'href="{0}"'.format(new_question_url))

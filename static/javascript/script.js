@@ -97,8 +97,7 @@ function leave_reply(topic_id, question_id) {
       'question_pk': question_id
     },
     success: function(response) {
-      console.log(response)
-      $(".bottom-padding").load(location.href + " .bottom-padding")
+      $(".bottom-padding").load(document.URL + " .bottom-padding")
     },
     error: function(xhr) {
       console.log(xhr.responseText)

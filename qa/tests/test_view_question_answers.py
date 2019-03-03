@@ -10,7 +10,7 @@ class QuestionAnswersTest(TestCase):
         user = User.objects.create_user(username='pit', email='pit@gmail.com', password='tiptiP161!')
         question = Question.objects.create(subject='Hello, QMConnect+!', topic=topic, starter=user)
         Answer.objects.create(message='Hello to you too!', question=question, created_by=user)
-        url = reverse('question_answers', kwargs={'pk': topic.pk, 'question_pk': question.pk})
+        url = reverse('qa:question_answers', kwargs={'pk': topic.pk, 'question_pk': question.pk})
         self.response = self.client.get(url)
 
     '''

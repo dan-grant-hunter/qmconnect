@@ -29,10 +29,11 @@ class Question(models.Model):
     def __str__(self):
         return self.subject
 
+    # count the number of answers
+    # return the number of pages 
     def get_page_count(self):
         count = self.answers.count()
-        print(self.answers)
-        pages = count / 2
+        pages = count / 5
         return math.ceil(pages)
 
     def has_many_pages(self, count=None):
