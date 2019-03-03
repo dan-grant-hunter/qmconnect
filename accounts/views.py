@@ -64,13 +64,13 @@ def register(request):
 
 @method_decorator(login_required, name='dispatch')
 class AccountUpdateView(UpdateView):
-    model = User
-    fields = ('first_name', 'last_name', 'email',)
+    model = Profile
+    fields = ('image', 'universityYear', 'module', 'interest',)
     template_name = 'account_update.html'
     success_url = reverse_lazy('account_update')
 
     def get_object(self):
-        return self.request.user
+        return self.request.user.profile
 
 # the function used to send messages
 @login_required
