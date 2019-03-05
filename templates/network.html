@@ -8,20 +8,31 @@
 {% endblock %}
 
 {% block content %}
-<nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item" aria-current="page">
-          <form id="formFiltering" method="get">
-            {% for field in user_filter.form %}
-              <div class="form-inline">
-                <strong><label for="{{ field.id_for_label }}"> {{ field.label_tag }} </label></strong>
-                {{ field|add_class:'mx-sm-3 mb-2' }}
-              </div>
-            {% endfor %}
-            <button class="btn btn-primary" type="submit" id="submitFiltering">Search</button>
-            <a class="btn btn-primary" href="{% url 'qa:network' %}">Reset</a>
-          </form>
-      </nav>
+<div class="bottom-padding">
+  <form id="formFiltering" method="get">
+  <div class="row">
+    {% for field in user_filter.form %}
+      <div class="col-sm-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="form-group">
+              <strong><label for="{{ field.id_for_label }}"> {{ field.label_tag }} </label></strong>
+              {{ field|add_class:'form-control'|set_data:"filters:OverText" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="bottom-padding"></div>
+  <div class="card align-items-center">
+    <div class="card-body center">
+      <button class="btn btn-outline-primary btn-lg" type="submit" id="submitFiltering">Search</button>
+      <a class="btn btn-outline-primary btn-lg" href="{% url 'qa:network' %}">Reset</a>
+    </div>
+  </div>
+  </form>
+</div>
 
 <div class="row text-center">
   {% for profile in user_filter.qs %}
