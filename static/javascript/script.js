@@ -30,8 +30,9 @@ $(function() {
   $(document).on('click', '#answer-submit', function() {
     topic_id = $('#topic_pk').text()
     question_id = $('#question_pk').text()
+    page_number = $('#page_number').text()
 
-    leave_reply(topic_id, question_id)
+    leave_reply(topic_id, question_id, page_number)
   });
 });
 
@@ -86,9 +87,9 @@ function sendMessage(receiver_id) {
 /*
   This functions allows users to leave replies on questions
 */
-function leave_reply(topic_id, question_id) {
+function leave_reply(topic_id, question_id, page_number) {
   $.ajax({
-    url: "/topics/" + topic_id + "/questions/" + question_id + "/reply/",
+    url: "/topics/" + topic_id + "/questions/" + question_id + "/reply/" + "?page=" + page_number,
     type: "POST",
     data: {
       'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
@@ -97,7 +98,9 @@ function leave_reply(topic_id, question_id) {
       'question_pk': question_id
     },
     success: function(response) {
-      $(".bottom-padding").load(document.URL + " .bottom-padding")
+      //$('#ok').append('response')
+      //console.log('done')
+      $("#whole").load(document.URL + " #whole")
     },
     error: function(xhr) {
       console.log(xhr.responseText)

@@ -10,9 +10,11 @@
 <li class="breadcrumb-item active">{{ question.subject }}</li>
 <span style="display:none;" id="topic_pk">{{question.topic.pk}}</span>
 <span style="display:none;" id="question_pk">{{question.pk}}</span>
+<span style="display:none;" id="page_number">{{page_obj.number}}</span>
 {% endblock %}
 
 {% block content %}
+<div id="whole">
 <div class="bottom-padding">
   <div class="card">
     <div class="card-body">
@@ -53,6 +55,8 @@
       </div>
       {% endfor %}
 
+      <div id="ok"></div>
+
       {% include 'includes/pagination.html' %}
     </div>
   </div>
@@ -74,5 +78,6 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 {% endblock %}
