@@ -34,6 +34,20 @@ $(function() {
 
     leave_reply(topic_id, question_id, page_number)
   });
+
+  ///////////////////////////////////////////////////////////////
+  ////////////////////  NETWORK PAGE ///////////////////////////
+  /////////////////////////////////////////////////////////////
+  // Allows the logged in user to filter the registered users
+  $(document).on('click', '#submitFiltering', function(event) {
+    filter(event)
+  });
+
+  // Allows the users to reset the filters
+  $(document).on('click', '#reset-btn', function(event) {
+    reset(event)
+  });
+  ///////////////////////////////////////////////////////////////
 });
 
 /*
@@ -98,12 +112,48 @@ function leave_reply(topic_id, question_id, page_number) {
       'question_pk': question_id
     },
     success: function(response) {
-      //$('#ok').append('response')
-      //console.log('done')
-      $("#whole").load(document.URL + " #whole")
+      $("#whole").load(document.URL + " #whole");
     },
     error: function(xhr) {
       console.log(xhr.responseText)
     }
-  })
+  });
+}
+
+/*
+  Filter the data in the network page
+*/
+function filter(event) {
+  var form = $('#formFiltering');
+  $.ajax({
+    url: "/network/",
+    type: "GET",
+    data: form.serialize(),
+    success: function(response) {
+      $('#main-part').replaceWith($('#main-part', response));
+    },
+    error: function(xhr) {
+      console.log(xhr.responseText)
+    }
+  });
+  event.preventDefault();
+}
+
+/*
+  Reset the filtering in the network page
+  Display all users registered
+*/
+function reset(event) {
+  $.ajax({
+    url: "/network/",
+    type: "GET",
+    success: function(response) {
+      $('#main-part').replaceWith($('#main-part', response));
+      $('#reset-filters').replaceWith($('#reset-filters', response));
+    },
+    error: function(xhr) {
+      console.log(xhr.responseText)
+    }
+  });
+  event.preventDefault();
 }

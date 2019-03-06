@@ -10,14 +10,14 @@
 {% block content %}
 <div class="bottom-padding">
   <form id="formFiltering" method="get">
-  <div class="row">
+  <div class="row" id="reset-filters">
     {% for field in user_filter.form %}
       <div class="col-sm-3">
         <div class="card h-100">
           <div class="card-body">
             <div class="form-group">
               <strong><label for="{{ field.id_for_label }}"> {{ field.label_tag }} </label></strong>
-              {{ field|add_class:'form-control'|set_data:"filters:OverText" }}
+              {{ field|add_class:'form-control' }}
             </div>
           </div>
         </div>
@@ -28,31 +28,33 @@
   <div class="card align-items-center">
     <div class="card-body center">
       <button class="btn btn-outline-primary btn-lg" type="submit" id="submitFiltering">Search</button>
-      <a class="btn btn-outline-primary btn-lg" href="{% url 'qa:network' %}">Reset</a>
+      <a class="btn btn-outline-primary btn-lg" id="reset-btn" href="{% url 'qa:network' %}">Reset</a>
     </div>
   </div>
   </form>
 </div>
 
-<div class="row text-center">
-  {% for profile in user_filter.qs %}
-  <div class="col-3 bottom-padding">
-    <div class="card h-100">
-      <img class="card-img-top" src="/profile_images/{{ profile.image }}" alt="User profile picture">
-      <div class="card-body">
-        <h4 class="card-title">{{ profile }}</h4>
-        <p class="card-text">
-          Hello! I am {{ profile.user.get_full_name }}.
-          If you want to find more about me, click on the button below!
-        </p>
-      </div>
-      <div class="card-footer">
-        <!-- Button trigger modal -->
-          <a class="btn btn-dark" href="{% url 'qa:profile' profile.user.id %}">Find more about me!</a>
+<div id="main-part">
+  <div class="row text-center">
+    {% for profile in user_filter.qs %}
+    <div class="col-3 bottom-padding">
+      <div class="card h-100">
+        <img class="card-img-top" src="/profile_images/{{ profile.image }}" alt="User profile picture">
+        <div class="card-body">
+          <h4 class="card-title">{{ profile }}</h4>
+          <p class="card-text">
+            Hello! I am {{ profile.user.get_full_name }}.
+            If you want to find more about me, click on the button below!
+          </p>
+        </div>
+        <div class="card-footer">
+          <!-- Button trigger modal -->
+            <a class="btn btn-dark" href="{% url 'qa:profile' profile.user.id %}">Find more about me!</a>
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>
 
 {% endblock content %}
