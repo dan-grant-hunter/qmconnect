@@ -20,16 +20,40 @@ class TopicsView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        '''
+        Retrieve the most popular topic
+        '''
+        # get the question with the highest number of questions
         mostQuestions = context['object_list'][0].questions_count()
+
+        # get the name of the topic with the highest number of questions
         mostQuestionsTopic = context['object_list'][0]
 
+        '''
+        Retrieve the most popular question
+        '''
+        # the number of answers a question has
+        mostAnswers = 0
+        # the name of the question with the most answers
+        mostAnswersQuestion = ''
+
+        # for each topic in the object list from the context
         for topic in context['object_list']:
+            # for each question in the list of questions from each topic
+            for question in Question.objects.filter(topic = topic):
+                if question.answers.count() > mostAnswers:
+                    mostAnswers = question.answers.count()
+                    mostAnswersQuestion = question
+
             if topic.questions_count() > mostQuestions:
                 mostQuestions = topic.questions_count()
                 mostQuestionsTopic = topic
 
+        # add the new information to the context
         context['mostQuestions'] = mostQuestions
         context['mostQuestionsTopic'] = mostQuestionsTopic
+        context['mostAnswers'] = mostAnswers
+        context['mostAnswersQuestion'] = mostAnswersQuestion
 
         return context
 

@@ -13,7 +13,7 @@
       <div class="card h-100">
         <h5 class="card-header bg-dark text-white">Most popular topic</h5>
         <div class="card-body">
-          <p class="card-text">{{mostQuestionsTopic}} with {{mostQuestions}} questions</p>
+          <p class="card-text"><a href="{% url 'qa:topic_questions' mostQuestionsTopic.pk %}">{{mostQuestionsTopic}}</a> with {{mostQuestions}} questions</p>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
       <div class="card h-100">
         <h5 class="card-header bg-dark text-white">Most popular question</h5>
         <div class="card-body">
-          dsg
+          <p class="card-text"><a href="{% url 'qa:question_answers' mostAnswersQuestion.topic.pk mostAnswersQuestion.pk %}">{{mostAnswersQuestion}}</a> with {{mostAnswers}} answers</p>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
           <tr>
             <th scope="col">Browse by topic</th>
             <th scope="col">Questions</th>
-            <th scope="col">answers</th>
+            <th scope="col">Answers</th>
             <th scope="col">Lastest answer</th>
           </tr>
         </thead>
