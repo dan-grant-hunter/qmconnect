@@ -69,6 +69,7 @@ class AccountUpdateView(UpdateView):
     template_name = 'account_update.html'
     success_url = reverse_lazy('account_update')
 
+    # return the account page of the logged-in user
     def get_object(self):
         return self.request.user.profile
 

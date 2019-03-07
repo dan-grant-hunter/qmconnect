@@ -13,9 +13,15 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 
+    # get the answers for each question in a specific topic
     def answers_count(self):
         return Answer.objects.filter(question__topic = self).count()
 
+    # count the questions for each topic
+    def questions_count(self):
+        return Question.objects.filter(topic = self).count()
+
+    # return the latest answer for each question in a specific topic
     def latest_answer(self):
         return Answer.objects.filter(question__topic = self).order_by('-created_at').first()
 
@@ -30,7 +36,7 @@ class Question(models.Model):
         return self.subject
 
     # count the number of answers
-    # return the number of pages 
+    # return the number of pages
     def get_page_count(self):
         count = self.answers.count()
         pages = count / 5

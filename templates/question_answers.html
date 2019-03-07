@@ -20,7 +20,6 @@
     <div class="card-body">
       <div class="mb-4">
         <h1> {{ question.subject }} </h1>
-        <a href="{% url 'qa:answer_question' question.topic.pk question.pk %}" class="btn btn-primary btn-sm" role="button">Reply</a>
       </div>
 
       {% for answer in answers %}

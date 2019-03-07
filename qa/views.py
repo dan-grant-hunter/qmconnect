@@ -17,6 +17,22 @@ class TopicsView(ListView):
     context_object_name = 'topics'
     template_name = 'home.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        mostQuestions = context['object_list'][0].questions_count()
+        mostQuestionsTopic = context['object_list'][0]
+
+        for topic in context['object_list']:
+            if topic.questions_count() > mostQuestions:
+                mostQuestions = topic.questions_count()
+                mostQuestionsTopic = topic
+
+        context['mostQuestions'] = mostQuestions
+        context['mostQuestionsTopic'] = mostQuestionsTopic
+
+        return context
+
 class QuestionsView(ListView):
     model = Question
     context_object_name = 'questions'
@@ -96,6 +112,7 @@ def answer_question(request, pk, question_pk):
     # retrieve the question for which an answer is posted
     question = get_object_or_404(Question, topic__pk = pk, pk = question_pk)
 
+    # proceed further only if the request is a POST request
     if request.method == 'POST':
         form = PostForm(request.POST)
 
@@ -115,8 +132,8 @@ def answer_question(request, pk, question_pk):
                 page = question.get_page_count()
             )
 
+    # create a dictionary with the new message
     data = {}
-
     data['message'] = answer.message
     data['created_at'] = answer.created_at
     data['created_by'] = answer.created_by.username
