@@ -7,15 +7,14 @@ class MailPasswordResetTests(TestCase):
     # dummy data that will be used for the tests
     def setUp(self):
         User.objects.create_user(username='cp', email = 'cp@gmail.com', password = 'superStrongPw!2-10')
-        self.repsonse = self.client.post(reverse('password_reset'), {'email': 'cp@gmail.com'})
+        self.response = self.client.post(reverse('password_reset'), {'email': 'cp@gmail.com'})
         self.email = mail.outbox[0]
 
     '''
     Test the subject of the email.
-    ''''
+    '''
     def test_email_subject(self):
-        self.assertEqual('[QMConnect+] Please reset your password', self.email.subject)
-
+        self.assertEqual('QMConnect+ - Reset your password', self.email.subject)
 
     """
     It tests the body of the email sent by the system.

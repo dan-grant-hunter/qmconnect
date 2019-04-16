@@ -163,6 +163,25 @@ def conversation(request, pk):
 
     return HttpResponse(formatted_messages_for_ajax)
 
+'''
+Creates a new conversation between the user making the request
+and another user.
+'''
+@login_required
+def new_conversation(request):
+    # create an empty conversation
+    #conversation = Conversation.objects.create()
+
+    # add the user making the request to the conversation
+    #conversation.members.add(request.user)
+
+    conversations = Conversation.objects.filter(members=request.user)
+
+    # accessing many to many fields
+    # accessing members from conversations
+    print(User.objects.filter(conversation__members=request.user))
+
+    return HttpResponse(conversations)
 
 @login_required
 def studybuddy(request):

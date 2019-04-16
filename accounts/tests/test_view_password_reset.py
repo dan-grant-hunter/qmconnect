@@ -6,7 +6,7 @@ from django.core import mail
 from django.test import TestCase
 from django.urls import resolve, reverse
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_based64_encode
+from django.utils.http import urlsafe_base64_encode
 
 class PasswordResetTests(TestCase):
     # The function will be used in all tests
@@ -117,7 +117,7 @@ class PasswordResetConfirmTests(TestCase):
         It creates a valid password reset token
         Based on how Django creates the token internally.
         '''
-        self.uid = urlsafe_base64_encode(force_bytes(user.pk)).decide()
+        self.uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
         self.token = default_token_generator.make_token(user)
 
         url = reverse('password_reset_confirm', kwargs={'uidb64': self.uid, 'token': self.token})
@@ -142,38 +142,38 @@ class PasswordResetConfirmTests(TestCase):
 
     def test_contains_form(self):
         form = self.response.context.get('form')
-        self.assertisInstance(form, SetPasswordForm)
+        self.assertIsInstance(form, SetPasswordForm)
 
     '''
     It checks if the form has two inputs:
     The csrf token and the two password fields.
     '''
     def test_form_inputs(self):
-        self.assertContains(self.response, '<input' 3)
+        self.assertContains(self.response, '<input', 3)
         self.assertContains(self.response, 'type="password"', 2)
 
 class InvalidPasswordResetConfirmTests(TestCase):
     def setUp(self):
-        user = User.objects.create_user(username = 'Catalin', email = email, password='testing1234')
+        user = User.objects.create_user(username = 'Catalin', email = "cp@email.com", password='testing1234')
         uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
         token = default_token_generator.make_token(user)
 
-    '''
-    Reset the password to invalidate the token.
-    '''
-    user.set_password('safa241')
-    user.save()
+        '''
+        Reset the password to invalidate the token.
+        '''
+        user.set_password('safa241')
+        user.save()
 
-    url = reverse('password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
-    self.response = self.client.get(url)
+        url = reverse('password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
+        self.response = self.client.get(url)
 
     def test_status_code(self):
         self.assertEquals(self.response.status_code, 200)
 
     def test_html(self):
         password_reset_url = reverse('password_reset')
-        self.assertContains(self.response, 'invalid password reset link')
-        self.assertContains(self.repsonse, 'href="{0}"'.format(password_reset_url))
+        self.assertContains(self.response, 'Invalid link, try again or ignore the message')
+        self.assertContains(self.response, 'href="{0}"'.format(password_reset_url))
 
 class PasswordResetCompleteTests(TestCase):
     def setUp(self):

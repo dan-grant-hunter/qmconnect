@@ -23,8 +23,8 @@ class PasswordUpdateTests(TestCase):
     Ensures that the url triggers the correct view.
     '''
     def test_url_resolves_correct_view(self):
-        view = resolve('/settings/password/')
-        self.assertEquals(view.func.view_class, auth_views.PasswordChangeView)
+        view = resolve('/reset/')
+        self.assertEquals(view.func.view_class, auth_views.PasswordResetView)
 
     '''
     Checks that the response contains the
@@ -104,7 +104,7 @@ class PasswordChangeSuccessfulTests(PasswordChangeTestCase):
     The resulting response should now have an `user` to its context, after a successful sign up.
     '''
     def test_user_authentication(self):
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('qa:latest'))
         user = response.context.get('user')
         self.assertTrue(user.is_authenticated)
 

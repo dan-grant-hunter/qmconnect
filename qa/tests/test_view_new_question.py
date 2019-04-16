@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse, resolve
-from ..models import Topic, Question, Answer
-from ..views import new_question
-from ..forms import NewQuestionForm
+from qa.models import Topic, Question, Answer
+from qa.views import new_question
+from qa.forms import NewQuestionForm
 
 class NewQuestionsTests(TestCase):
     """
@@ -51,7 +51,7 @@ class NewQuestionsTests(TestCase):
         self.assertContains(response, 'href="{0}"'.format(topic_questions_url))
 
     """
-    It ensures that the CSRF token is included in the HTML.
+    It ensures that the CSRF token is included in the response.
     """
     def test_csrf_middleware_token(self):
         url = reverse('qa:new_question', kwargs={'pk': 1})

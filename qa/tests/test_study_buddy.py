@@ -7,6 +7,7 @@ from accounts.views import studybuddy
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+# This file tests the "Find buddy" webpage
 class FindBuddyTests(TestCase):
     """
     Get the URL to the buddy webpage

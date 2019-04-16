@@ -52,6 +52,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+# Used to group the conversations
 class Conversation(models.Model):
     members = models.ManyToManyField(User, verbose_name="Member")
 

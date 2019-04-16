@@ -1,9 +1,9 @@
 from django.test import TestCase
-from ..forms import RegisterForm
+from accounts.forms import RegisterForm
 
 class RegisterFormTest(TestCase):
     def test_form_has_field(self):
         form = RegisterForm()
-        expected = ['username', 'email', 'password1', 'password2',]
+        expected = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
         actual = list(form.fields)
         self.assertSequenceEqual(expected, actual)

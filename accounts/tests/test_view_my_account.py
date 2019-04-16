@@ -2,14 +2,20 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import resolve, reverse
-from ..views import AccountUpdateView
+from accounts.views import AccountUpdateView
+from accounts.models import Profile, Module, Interest
 
 class MyAccountTestCase(TestCase):
     def setUp(self):
         self.username = 'Catalin',
         self.password = 'mypassw159'
+        self.module = Module.objects.create(name='Web Programming')
+        self.interest = Interest.objects.create(name='Python')
         self.user = User.objects.create_user(username=self.username, email="cp@gmail.com", password=self.password)
-        self.url = reverse('my_account')
+        self.profile = Profile.objects.create(user=self.user, dob='1990-08-08', image='', universityYear='1', subject='BSc Computer Science')
+        self.profile.module.add(self.module)
+        self.profile.interest.add(self.interest)
+        self.url = reverse('account_update')
 
 class MyAccountTests(MyAccountTestCase):
     def setUp(self):
@@ -28,7 +34,7 @@ class MyAccountTests(MyAccountTestCase):
     view function - AccountUpdateView.
     '''
     def test_url_resolves_proper_view(self):
-        url = resolve('/settings/myaccount/')
+        view = resolve('/settings/account')
         self.assertEquals(view.func.view_class, AccountUpdateView)
 
     '''
@@ -47,16 +53,16 @@ class MyAccountTests(MyAccountTestCase):
         self.assertIsInstance(form, ModelForm)
 
     '''
-    Ensures that the form contains all the four inputs:
-        - first name,
-        - last name,
-        - email
-        - csrf token
+    Ensures that the form contains all the necessary inputs:
+        - image
+        - university year
+        - module
+        - interest
     '''
     def test_form_contains_inputs(self):
-        self.assertContains(self.response, '<input', 4)
-        self.assertContains(self.response, 'type="text"', 2)
-        self.assertContains(self.response, 'type="email"', 1)
+        self.assertContains(self.response, '<input', 2)
+        self.assertContains(self.response, '<select', 3)
+        self.assertContains(self.response, 'type="file"', 1)
 
 class MyAccountRequiresLoginTests(TestCase):
     '''
@@ -64,36 +70,37 @@ class MyAccountRequiresLoginTests(TestCase):
     if the user is logged in.
     '''
     def test_redirection(self):
-        url = reverse('my_account')
+        url = reverse('account_update')
         login_url = reverse('login')
         response = self.client.get(url)
         self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=url))
 
 class MyAccountSuccessfulUpdate(MyAccountTestCase):
     def setUp(self):
+        # log the user in
         super().setUp()
         self.client.login(username=self.username, password=self.password)
+        # update the information to other modules and interests
+        module = Module.objects.create(name='Big Data Processing')
+        interest = Interest.objects.create(name='Java Programming')
+        # make a POST request with the new data
         self.response = self.client.post(self.url, {
-            'first_name': 'Catalin',
-            'last_name': 'Pit',
-            'email': 'cpit@gmail.com',
+            'image': '',
+            'universityYear': '1',
+            'module': module.pk,
+            'interest': interest.pk
         })
 
     '''
-    It makes sure that a valid from submission redirects the user.
-    '''
-    def test_successful_update_redirect(self):
-        self.assertRedirects(self.response, self.url)
-
-    '''
-    Tests if the user instance is refreshed from database
-    to retrieve the updated data.
+    Tests if the updated details are in the response:
+        - module
+        - interest
+        - university year
     '''
     def test_information_updated(self):
-        self.user.refresh_from_db()
-        self.assertEquals('Catalin', self.user.first_name)
-        self.assertEquals('Pit', self.user.last_name)
-        self.assertEquals('cp@gmail.com', self.user.email)
+        self.assertContains(self.response, self.module)
+        self.assertContains(self.response, self.interest)
+        self.assertContains(self.response, '3rd year')
 
 class MyAccountUnsuccessfulUpdate(MyAccountTestCase):
     def setUp(self):
@@ -111,7 +118,7 @@ class MyAccountUnsuccessfulUpdate(MyAccountTestCase):
         self.assertEquals(self.response.status_code, 200)
 
     '''
-    It tests if the form displays the errors.
+    Tests that the form displays the errors.
     '''
     def test_form_errors(self):
         form = self.response.context['form']

@@ -1,8 +1,9 @@
 from django.urls import resolve, reverse
 from django.test import TestCase
 from django.contrib.auth.models import User
-from ..views import register
-from ..forms import RegisterForm
+from accounts.views import register
+from accounts.forms import RegisterForm
+from accounts.models import Module, Interest
 
 # Create your tests here.
 class RegisterTests(TestCase):
@@ -41,29 +42,53 @@ class RegisterTests(TestCase):
         self.assertContains(response, 'csrfmiddlewaretoken')
 
     """
-    Ensuring that the form only includes five fields such as
-    csrf, user name, email address, password1 and password2.
+    Tests that the registration page contains the required fields:
+        - username
+        - email
+        - first name and last name
+        - password
+        - password confirmation
+        - image
+        - date of birth
+        - subject
+        - university year
+        - module
+        - interest
     """
     def test_form_fields(self):
         url = reverse('register')
         response = self.client.get(url)
-        self.assertContains(response, '<input', 5)
-        self.assertContains(response, 'type="text"', 1)
+        self.assertContains(response, '<input', 9)
+        self.assertContains(response, 'type="text"', 4)
         self.assertContains(response, 'type="email"', 1)
         self.assertContains(response, 'type="password"', 2)
+        self.assertContains(response, 'type="file"', 1)
+        self.assertContains(response, '<select', 4)
 
 class RegisterSuccessfullyTests(TestCase):
     # Default class that will be used for the tests in this class
     def setUp(self):
         url = reverse('register')
+        # Need to create instances of Module and Interest for a successful registration
+        module = Module.objects.create(name="Web Programming")
+        interest = Interest.objects.create(name="Programming")
         data = {
             'username': 'cp',
             'email': 'cp@mail.com',
+            'first_name': 'catalin',
+            'last_name': 'pit',
             'password1': 'thirdyearproject',
-            'password2': 'thirdyearproject'
+            'password2': 'thirdyearproject',
+            'image': '',
+            'dob': '02/04/1995',
+            'subject': 'BCS',
+            'universityYear': '1',
+            'module': module.pk,
+            'interest': interest.pk
+
         }
         self.response = self.client.post(url, data)
-        self.home_url = reverse('home')
+        self.home_url = reverse('qa:latest')
 
     """
     Tests if the user is redirected to the home page

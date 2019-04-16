@@ -1,7 +1,7 @@
 from django.urls import resolve, reverse
 from django.test import TestCase
-from ..models import Topic
-from ..views import QuestionsView
+from qa.models import Topic
+from qa.views import QuestionsView
 
 class TopicQuestionsTest(TestCase):
     # A topic instance that will only be used for testing
@@ -41,7 +41,7 @@ class TopicQuestionsTest(TestCase):
     def test_topic_questions_view_has_navigations_links(self):
         topic_questions_url = reverse('qa:topic_questions', kwargs={'pk': 1})
         response = self.client.get(topic_questions_url)
-        homepage_url = reverse('qa:home')
+        homepage_url = reverse('qa:latest')
         new_question_url = reverse('qa:new_question', kwargs={'pk': 1})
         self.assertContains(response, 'href="{0}"'.format(homepage_url))
         self.assertContains(response, 'href="{0}"'.format(new_question_url))

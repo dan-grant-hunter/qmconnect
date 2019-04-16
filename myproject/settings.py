@@ -138,4 +138,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'profile_images')
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'qa:latest'
 LOGIN_REDIRECT_URL = 'qa:latest'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'catalinpit'
+EMAIL_HOST_PASSWORD = 'QMConnect+2019!'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

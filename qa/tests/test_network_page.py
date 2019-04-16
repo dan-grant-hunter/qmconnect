@@ -28,7 +28,7 @@ class NetworkPageTests(TestCase):
         self.assertEquals(self.response.status_code, 200)
 
     """
-    Test if the right view function is used for the request
+    Tests if the right view function is used for the request
     The "Network" webpage should return the network view function
     """
     def test_network_returns_correct_view(self):
@@ -38,7 +38,7 @@ class NetworkPageTests(TestCase):
         self.assertEquals(view.func, network)
 
     """
-    Test that the webpage contains the form for filtering users
+    Tests that the webpage contains the form for filtering users
     """
     def test_network_webpage_contains_profilefilterForm(self):
         self.assertIn("formFiltering", str(self.response.content))
