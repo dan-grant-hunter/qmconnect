@@ -15,6 +15,10 @@ from collections import *
 import json
 from django.core import serializers
 
+'''
+Code written by myself
+'''
+
 def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
@@ -210,6 +214,5 @@ def studybuddy(request):
 
     # extract the users from the counter
     related_users = [user for user,count in related_users_counter]
-
 
     return render(request, 'buddy.html', {'related_users': related_users})

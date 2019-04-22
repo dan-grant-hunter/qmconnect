@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+'''
+Code written by myself
+'''
+
 # It represents the modules studied by the user
 # e.g. Procedural Programming, Web Programming, etc.
 # Many-to-many relationship with the Profile model

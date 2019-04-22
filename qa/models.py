@@ -5,6 +5,10 @@ from django.utils.text import Truncator
 from django.utils.html import mark_safe
 from markdown import markdown
 
+'''
+Code written by myself following the tutorial: https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/
+'''
+
 # Create your models here.
 class Topic(models.Model):
     name = models.CharField(max_length=30, unique=True)

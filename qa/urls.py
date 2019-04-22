@@ -2,6 +2,10 @@ from django.urls import path
 from . import views as qa_views
 from accounts import views as accounts_views
 
+'''
+Code written by myself
+'''
+
 app_name = 'qa'
 urlpatterns = [
     path('', qa_views.latest, name='latest'),

@@ -5,6 +5,10 @@ from accounts.views import register
 from accounts.forms import RegisterForm
 from accounts.models import Module, Interest
 
+'''
+Code written by myself following the tutorial: https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/
+'''
+
 # Create your tests here.
 class RegisterTests(TestCase):
     """

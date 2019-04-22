@@ -5,6 +5,10 @@ from qa.models import Topic, Question, Answer
 from qa.views import AnswersView
 import re
 
+'''
+Code written by myself
+'''
+
 class QuestionAnswersTest(TestCase):
     def setUp(self):
         self.topic = Topic.objects.create(name='QMConnect+', description='A platform for students from students.')

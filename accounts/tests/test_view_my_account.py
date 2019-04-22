@@ -5,6 +5,10 @@ from django.urls import resolve, reverse
 from accounts.views import AccountUpdateView
 from accounts.models import Profile, Module, Interest
 
+'''
+Code written by myself following the tutorial: https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/
+'''
+
 class MyAccountTestCase(TestCase):
     def setUp(self):
         self.username = 'Catalin',
@@ -38,7 +42,7 @@ class MyAccountTests(MyAccountTestCase):
         self.assertEquals(view.func.view_class, AccountUpdateView)
 
     '''
-    Ensure that the response contains the
+    Tests that the response contains the
     csrf middleware token.
     '''
     def test_response_has_csrf(self):

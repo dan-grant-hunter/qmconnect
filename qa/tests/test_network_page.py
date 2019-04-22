@@ -7,6 +7,10 @@ from django.contrib.auth.models import User
 from accounts.views import network
 from accounts.filters import ProfileFilter
 
+'''
+Code written by myself
+'''
+
 # Tests the "Network" webpage with the user being logged in
 class NetworkPageTests(TestCase):
     def setUp(self):

@@ -1,6 +1,10 @@
 from django.test import TestCase
 from accounts.forms import RegisterForm
 
+'''
+Code written by myself
+'''
+
 class RegisterFormTest(TestCase):
     def test_form_has_field(self):
         form = RegisterForm()

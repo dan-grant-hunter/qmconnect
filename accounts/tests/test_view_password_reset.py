@@ -8,6 +8,10 @@ from django.urls import resolve, reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
+'''
+Code written by myself following the tutorial: https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/
+'''
+
 class PasswordResetTests(TestCase):
     # The function will be used in all tests
     def setUp(self):
@@ -95,12 +99,6 @@ class PasswordResetDoneTests(TestCase):
     def setup(self):
         url = reverse('password_reset_done')
         self.response = self.client.get(url)
-
-    '''
-    Checks the request's response status code.
-    '''
-    def test_status_code(self):
-        self.assertEquals(self.response.status_code, 200)
 
     '''
     Checks if returns the correct view function.

@@ -3,6 +3,10 @@ from django.test import TestCase
 from qa.models import Topic
 from qa.views import QuestionsView
 
+'''
+Code written by myself
+'''
+
 class TopicQuestionsTest(TestCase):
     # A topic instance that will only be used for testing
     def setUp(self):

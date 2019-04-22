@@ -7,6 +7,10 @@ from accounts.views import studybuddy
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+'''
+Code written by myself
+'''
+
 # This file tests the "Find buddy" webpage
 class FindBuddyTests(TestCase):
     """

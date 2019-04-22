@@ -4,6 +4,10 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 
+'''
+Code written by myself following the tutorial: https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/
+'''
+
 class PasswordUpdateTests(TestCase):
     def setUp(self):
         username = 'Catalin'

@@ -3,6 +3,10 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from .models import Profile, Interest, Module, Message, Conversation
 
+'''
+Code written by myself
+'''
+
 # Add the Profile model to the Django admin interface
 class ProfileInline(admin.StackedInline):
     model = Profile

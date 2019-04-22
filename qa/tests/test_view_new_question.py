@@ -5,6 +5,10 @@ from qa.models import Topic, Question, Answer
 from qa.views import new_question
 from qa.forms import NewQuestionForm
 
+'''
+Code written by myself following the tutorial: https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/
+'''
+
 class NewQuestionsTests(TestCase):
     """
     It creates a Topic instance that will be used

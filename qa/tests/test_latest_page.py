@@ -6,6 +6,10 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from qa.views import latest
 
+'''
+Code written by myself
+'''
+
 # Tests the homepage of the application
 class LatestPageTests(TestCase):
     def setUp(self):
@@ -35,7 +39,9 @@ class LatestPageTests(TestCase):
         # Tests that the view functions match
         self.assertEquals(view.func, latest)
 
+    """
+    Tests that the home view contains links to the questions
+    """
     def test_home_view_contains_link_to_question(self):
-        print(self.response.content)
         topic_questions_url = reverse('qa:question_answers', kwargs={'pk': self.topic.pk, 'question_pk': self.question.pk})
         self.assertContains(self.response, topic_questions_url)

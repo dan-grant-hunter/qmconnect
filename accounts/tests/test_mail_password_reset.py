@@ -3,6 +3,10 @@ from django.core import mail
 from django.test import TestCase
 from django.urls import reverse
 
+'''
+Code written by myself following the tutorial: https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/
+'''
+
 class MailPasswordResetTests(TestCase):
     # dummy data that will be used for the tests
     def setUp(self):

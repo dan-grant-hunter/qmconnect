@@ -5,6 +5,10 @@ from qa.views import TopicsView
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+'''
+Code written by myself
+'''
+
 class TopicsTests(TestCase):
     """
     Having url and response in this method

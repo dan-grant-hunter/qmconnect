@@ -5,6 +5,10 @@ from django import forms
 import datetime
 from datetime import date
 
+'''
+Code written by myself
+'''
+
 # registration form that is used for the User model
 class RegisterForm(UserCreationForm):
     email = forms.CharField(
@@ -31,7 +35,7 @@ class MessageForm(forms.ModelForm):
         model = Message
         fields = ('text', )
 
-# the form that is used to send a message
+# the form that is to create a conversation
 class ConversationForm(forms.ModelForm):
     class Meta:
         model = Conversation

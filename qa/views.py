@@ -12,6 +12,10 @@ from accounts.models import Interest, Profile
 from accounts.models import Interest, Conversation, Message
 from django.http import JsonResponse
 
+'''
+Code written by myself + code written following the tutorial: https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/
+'''
+
 class TopicsView(ListView):
     model = Topic
     context_object_name = 'topics'

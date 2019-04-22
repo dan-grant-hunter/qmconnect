@@ -6,6 +6,10 @@ from django.utils import timezone
 from accounts.views import profile
 from django.contrib.auth.models import User
 
+'''
+Code written by myself
+'''
+
 # This class tests the "profile" webpage when the user is logged in
 class ProfileTests(TestCase):
     """
