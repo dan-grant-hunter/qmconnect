@@ -21,8 +21,8 @@ Accessing the application: 2nd method
 
 Accessing the application: 3rd method (hardest method)
 1. Install Virtualenv: [Virtualenv installation guide for Linux/Windows/MacOS](https://packaging.python.org/guides/installing-using-pip-and-virtualenv/)
-2. Create a virtual environment (go into QMConnect folder then run the following command): virtualenv QMConnectVirtualEnvironment
-3. Activate the virtual environment by running the following command: source QMConnectVirtualEnvironment/bin/activate
+2. Create a virtual environment (go into QMConnect folder then run the following command): virtualenv qmconnectvenv
+3. Activate the virtual environment by running the following command: source qmconnectvenv/bin/activate
 4. Go into "myproject"
 5. Install the required dependencies: pip install -r requirements.txt
 6. Run the application: python manage.py runserver
@@ -35,11 +35,11 @@ Accessing the application: 3rd method (hardest method)
 Tests
 Before running the tests is important to be in the folder *QMConnect/myproject* (cd QMConnect/myproject)
 
-To run the tests in the "accounts" application run the following in the terminal:
-- python manage.py test accounts/tests (55 tests)
+To run the tests in the "accounts" application (55 tests) run the following in the terminal:
+- python manage.py test accounts/tests
 
-To run the tests in the "qa" application run the following in the terminal:
-- python manage.py test qa/tests (41 tests)
+To run the tests in the "qa" application (41 tests) run the following in the terminal:
+- python manage.py test qa/tests
 
 To run all tests in one go:
 - python manage.py test accounts/tests qa/tests
