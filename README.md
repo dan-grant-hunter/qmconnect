@@ -21,18 +21,18 @@ Go to the url [QMConnect+](http://qmconnect.herokuapp.com/)
 6. **Run the application**: python manage.py runserver
 7. **Open the browser and enter the following address**: http://127.0.0.1:8000/ or http://localhost:8000/ !
 
-# ! - check your terminal output, you might have a different address
+*! - check your terminal output, you might have a different address*
 
 ## Tests
 Before running the tests is important to be in the folder *QMConnect/myproject* (cd QMConnect/myproject)
 
 To run the tests in the "accounts" application (55 tests) run the following in the terminal:
-* python manage.py test accounts/tests
+* **python manage.py test accounts/tests**
 
 To run the tests in the "qa" application (41 tests) run the following in the terminal:
-* python manage.py test qa/tests
+* **python manage.py test qa/tests**
 
 To run all tests (96 tests) in one go:
-* python manage.py test accounts/tests qa/tests
+* **python manage.py test accounts/tests qa/tests**
 
-** The above commands (tests) only work by following the 2nd or 3rd method from above.
+**The above commands (tests) only work by following the 2nd or 3rd method from above.**
