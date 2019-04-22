@@ -12,7 +12,7 @@ To run the tests in the "qa" application run the following in the terminal:
 * python manage.py test qa/tests (41 tests)
 
 # Accessing the application: 1st method (easiest method)
-Go to the url * [QMConnect+](http://qmconnect.herokuapp.com/)
+Go to the url [QMConnect+](http://qmconnect.herokuapp.com/)
 
 # Accessing the application: 2nd method (harder method)
 1. **Install Anaconda or Miniconda to be able to access the application from the terminal**
