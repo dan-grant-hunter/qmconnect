@@ -2,8 +2,6 @@
 * qa
 * accounts
 
-------------------------------------------------------------------------------------------------------------
-
 ## Tests
 Before running the tests is important to be in the folder *QMConnect/myproject* (cd QMConnect/myproject)
 
@@ -12,8 +10,6 @@ To run the tests in the "accounts" application run the following in the terminal
 
 To run the tests in the "qa" application run the following in the terminal:
 * python manage.py test qa/tests (41 tests)
-
-------------------------------------------------------------------------------------------------------------
 
 # Accessing the application: 1st method (easiest method)
 Go to the url * [QMConnect+](http://qmconnect.herokuapp.com/)
