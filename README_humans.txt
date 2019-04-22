@@ -1,6 +1,17 @@
 ######################################################################
 Easier to read the instructions here:
 https://github.com/catalinpit/qmconnect
+
+Users and passwords:
+Username: admin       | Password: PassworD2019!
+Username: catalinpit  | Password: PassworD2019!
+Username: catapit     | Password: PassworD2019!
+Username: dorishart   | Password: PassworD2019!
+Username: irism       | Password: PassworD2019!
+Username: jerrya      | Password: PassworD2019!
+Username: karolann    | Password: PassworD2019!
+Username: pit         | Password: PassworD2019!
+Username: susanfraser | Password: PassworD2019!
 ######################################################################
 
 The folder called QMConnect is split into two other folders:
