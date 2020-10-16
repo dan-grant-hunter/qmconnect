@@ -24,7 +24,7 @@ Go to the url [QMConnect+](http://qmconnect.herokuapp.com/)
 *! - check your terminal output, you might have a different address*
 
 ## Tests
-Before running the tests is important to be in the folder *QMConnect/myproject* (cd QMConnect/myproject)
+Before running the tests, it is important to be in the folder *QMConnect/myproject* (cd QMConnect/myproject)
 
 To run the tests in the "accounts" application (55 tests) run the following in the terminal:
 * **python manage.py test accounts/tests**
